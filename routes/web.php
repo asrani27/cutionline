@@ -1,0 +1,94 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\InstalasiController;
+use App\Http\Controllers\SuperadminController;
+
+Route::get('/', [LoginController::class, 'index']);
+Route::post('/login', [LoginController::class, 'login']);
+Route::get('/login', function(){
+    return redirect('/');
+})->name('login');
+
+
+Route::get('/logout', function(){
+    Auth::logout();
+    return redirect('/');
+});
+
+Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
+    Route::get('/superadmin/home', [SuperadminController::class, 'home']);
+    Route::get('/superadmin/download', [SuperadminController::class, 'download']);
+    Route::get('/superadmin/profil', [SuperadminController::class, 'profil']);
+    Route::post('/superadmin/profil', [SuperadminController::class, 'changeSuperadmin']);
+
+    Route::get('/superadmin/skpd', [SuperadminController::class, 'skpd']);
+    Route::get('/superadmin/skpd/add', [SuperadminController::class, 'addSkpd']);
+    Route::post('/superadmin/skpd/add', [SuperadminController::class, 'storeSkpd']);
+    Route::get('/superadmin/skpd/edit/{id}', [SuperadminController::class, 'editSkpd']);
+    Route::post('/superadmin/skpd/edit/{id}', [SuperadminController::class, 'updateSkpd']);
+    Route::get('/superadmin/skpd/delete/{id}', [SuperadminController::class, 'deleteSkpd']);
+    
+    Route::get('/superadmin/pegawai', [SuperadminController::class, 'pegawai']);
+    Route::get('/superadmin/pegawai/add', [SuperadminController::class, 'addPegawai']);
+    Route::post('/superadmin/pegawai/add', [SuperadminController::class, 'storePegawai']);
+    Route::get('/superadmin/pegawai/edit/{id}', [SuperadminController::class, 'editPegawai']);
+    Route::post('/superadmin/pegawai/edit/{id}', [SuperadminController::class, 'updatePegawai']);
+    Route::get('/superadmin/pegawai/delete/{id}', [SuperadminController::class, 'deletePegawai']);
+    Route::get('/superadmin/pegawai/createuser/{id}', [SuperadminController::class, 'createuser']);
+    Route::get('/superadmin/pegawai/createuser', [SuperadminController::class, 'createalluser']);
+    Route::get('/superadmin/pegawai/resetpass/{id}', [SuperadminController::class, 'resetpass']);
+    Route::get('/superadmin/pegawai/import', [SuperadminController::class, 'import']);
+    Route::post('/superadmin/pegawai/import', [SuperadminController::class, 'storeImport']);
+    Route::get('/superadmin/pegawai/search', [SuperadminController::class, 'searchPegawai']);
+    
+    Route::get('/superadmin/setting/kategori/upload', [SuperadminController::class, 'kategori']);
+    Route::get('/superadmin/setting/kategori/upload/add', [SuperadminController::class, 'addKategori']);
+    Route::post('/superadmin/setting/kategori/upload/add', [SuperadminController::class, 'storeKategori']);
+    Route::get('/superadmin/setting/kategori/upload/edit/{id}', [SuperadminController::class, 'editKategori']);
+    Route::post('/superadmin/setting/kategori/upload/edit/{id}', [SuperadminController::class, 'updateKategori']);
+    Route::get('/superadmin/setting/kategori/upload/delete/{id}', [SuperadminController::class, 'deleteKategori']);
+
+    Route::get('/superadmin/manajemen/instalasi', [InstalasiController::class, 'index']);
+    Route::get('/superadmin/manajemen/instalasi/kepala', [InstalasiController::class, 'kai']);
+    Route::put('/superadmin/manajemen/instalasi/kepala', [InstalasiController::class, 'updateKai']);
+    Route::get('/superadmin/manajemen/instalasi/add', [InstalasiController::class, 'create']);
+    Route::post('/superadmin/manajemen/instalasi/add', [InstalasiController::class, 'store']);
+    Route::get('/superadmin/manajemen/instalasi/edit/{instalasi}', [InstalasiController::class, 'edit']);
+    Route::put('/superadmin/manajemen/instalasi/edit/{instalasi}', [InstalasiController::class, 'update']);
+    Route::get('/superadmin/manajemen/instalasi/delete/{instalasi}', [InstalasiController::class, 'destroy']);
+    
+    Route::get('/superadmin/manajemen/instalasi/{instalasi}/ruangan', [RuanganController::class, 'index']);
+    Route::get('/superadmin/manajemen/ruangan/kepala', [RuanganController::class, 'karu']);
+    Route::put('/superadmin/manajemen/ruangan/kepala', [RuanganController::class, 'updateKaru']);
+    Route::get('/superadmin/manajemen/instalasi/{instalasi}/ruangan/add', [RuanganController::class, 'create']);
+    Route::post('/superadmin/manajemen/instalasi/{instalasi}/ruangan/add', [RuanganController::class, 'store']);
+    Route::get('/superadmin/manajemen/instalasi/{instalasi}/ruangan/edit/{ruangan}', [RuanganController::class, 'edit']);
+    Route::put('/superadmin/manajemen/instalasi/{instalasi}/ruangan/edit/{ruangan}', [RuanganController::class, 'update']);
+    Route::get('/superadmin/manajemen/instalasi/{instalasi}/ruangan/delete/{ruangan}', [RuanganController::class, 'destroy']);
+
+    Route::get('/superadmin/manajemen/jabatan', [JabatanController::class, 'index']);
+    Route::get('/superadmin/manajemen/jabatan/{ruangan}/add', [JabatanController::class, 'create']);
+    Route::post('/superadmin/manajemen/jabatan/{ruangan}/add', [JabatanController::class, 'store']);
+    Route::get('/superadmin/manajemen/jabatan/edit/{ruangan}/{jabatan}', [JabatanController::class, 'edit']);
+    Route::put('/superadmin/manajemen/jabatan/edit/{ruangan}/{jabatan}', [JabatanController::class, 'update']);
+    Route::get('/superadmin/manajemen/jabatan/delete/{jabatan}', [JabatanController::class, 'destroy']);
+});
+
+
+Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
+    Route::get('/pegawai/home', [PegawaiController::class, 'home']);  
+    Route::get('/pegawai/profil', [PegawaiController::class, 'profil']);    
+    Route::post('/pegawai/profil', [PegawaiController::class, 'changePegawai']);  
+    
+    Route::get('/pegawai/upload', [PegawaiController::class, 'upload']);      
+    Route::get('/pegawai/upload/add/{kategori_id}', [PegawaiController::class, 'addUpload']); 
+    Route::post('/pegawai/upload/add/{kategori_id}', [PegawaiController::class, 'storeUpload']);     
+    Route::get('/pegawai/upload/delete/{id}', [PegawaiController::class, 'deleteFile']);         
+    Route::get('/pegawai/view/{nip}/{filename}', [PegawaiController::class, 'viewFile']);       
+});
