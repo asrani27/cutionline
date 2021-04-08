@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CutiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
@@ -84,11 +85,16 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
 Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/home', [PegawaiController::class, 'home']);  
     Route::get('/pegawai/profil', [PegawaiController::class, 'profil']);    
-    Route::post('/pegawai/profil', [PegawaiController::class, 'changePegawai']);  
-    
-    Route::get('/pegawai/upload', [PegawaiController::class, 'upload']);      
-    Route::get('/pegawai/upload/add/{kategori_id}', [PegawaiController::class, 'addUpload']); 
-    Route::post('/pegawai/upload/add/{kategori_id}', [PegawaiController::class, 'storeUpload']);     
-    Route::get('/pegawai/upload/delete/{id}', [PegawaiController::class, 'deleteFile']);         
-    Route::get('/pegawai/view/{nip}/{filename}', [PegawaiController::class, 'viewFile']);       
+    Route::post('/pegawai/profil', [PegawaiController::class, 'changePegawai']);     
+    Route::get('/pegawai/profil/edit', [PegawaiController::class, 'editProfil']);    
+    Route::put('/pegawai/profil/edit', [PegawaiController::class, 'updateProfil']);    
+    Route::get('/pegawai/ajukan/cuti', [CutiController::class, 'ajukan']);   
+    Route::post('/pegawai/ajukan/cuti', [CutiController::class, 'store']);  
+    Route::get('/pegawai/ajukan/delete/{cuti}', [CutiController::class, 'destroy']);  
+    Route::get('/pegawai/riwayat/cuti', [PegawaiController::class, 'riwayatCuti']); 
+
+    Route::get('/pegawai/ajukan/validasi/setujui/{cuti}', [CutiController::class, 'setujui']);
+    Route::get('/pegawai/ajukan/validasi/tolak/{cuti}', [CutiController::class, 'tolak']);   
+    Route::get('/pegawai/ajukan/download/pdf/{cuti}', [CutiController::class, 'pdf']);   
+
 });

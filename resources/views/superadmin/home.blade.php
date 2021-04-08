@@ -28,12 +28,12 @@
               <!-- small box -->
               <div class="small-box bg-gradient-primary">
                 <div class="inner">
-                  <h3>34</h3>
+                  <h3>{{$cuti->count()}}</h3>
                   
                   <p>TOTAL CUTI</p>
                 </div>
                 <div class="icon">
-                    <i class="fas fa-university"></i>
+                    <i class="fas fa-clock"></i>
                 </div>
                 <a href="#" class="small-box-footer">Detail <i class="fas fa-arrow-circle-right"></i></a>
               </div>
@@ -43,7 +43,7 @@
               <!-- small box -->
               <div class="small-box bg-gradient-success">
                 <div class="inner">
-                  <h3>43</h3>
+                  <h3>{{$pegawai->count()}}</h3>
   
                   <p>Jumlah Pegawai</p>
                 </div>
@@ -71,7 +71,8 @@
                   <th>Jabatan</th>
                   <th>Tgl Mulai</th>
                   <th>Tgl Sampai</th>
-                  <th>Total</th>
+                  <th>Lama</th>
+                  <th>Status</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -79,16 +80,29 @@
                   $no =1;
               @endphp
               <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                      <td>-</td>
-                    </tr>
+                @foreach ($cuti as $item)
+                <tr>
+                  <td>{{$no++}}</td>
+                  <td>{{$item->pegawai->nip}}</td>
+                  <td>{{$item->pegawai->nama}}</td>
+                  <td>{{$item->jabatan->nama}}</td>
+                  <td>{{$item->mulai}}</td>
+                  <td>{{$item->sampai}}</td>
+                  <td>{{$item->lama}} Hari</td>
+                  <td>
+                    @if ($item->status == NULL)
+                        <span class="badge badge-info">Diproses</span>
+                    @elseif ($item->status == 1)
+                        <span class="badge badge-success">Disetujui</span>
+                    @else
+                        <span class="badge badge-danger">Ditolak</span>
+                    @endif
+                  </td>
+                  <td>
+                    <a href="/pegawai/ajukan/download/pdf/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='PDF' target="_blank"><i class="fas fa-file-pdf"></i></a>
+                  </td>
+                </tr>
+                @endforeach
               </tbody>
               <tfoot>
                 <tr>

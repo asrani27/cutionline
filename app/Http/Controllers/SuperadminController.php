@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use File;
 use Exception;
 use ZipArchive;
+use App\Models\Cuti;
 use App\Models\Role;
 use App\Models\Skpd;
 use App\Models\User;
@@ -22,7 +23,9 @@ class SuperadminController extends Controller
 {
     public function home()
     {
-        return view('superadmin.home');
+        $cuti = Cuti::with('pegawai')->orderBy('id','DESC')->paginate(10);
+        $pegawai = Pegawai::get();
+        return view('superadmin.home',compact('cuti','pegawai'));
     }
 
     public function import()

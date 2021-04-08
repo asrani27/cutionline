@@ -18,10 +18,10 @@
     </a>
     </li>
     <li class="nav-item">
-    <a href="/pegawai/upload" class="nav-link">
+    <a href="/pegawai/riwayat/cuti" class="nav-link">
         <i class="nav-icon fas fa-file"></i>
         <p>
-        Upload
+        Riwayat Cuti
         </p>
     </a>
     </li>

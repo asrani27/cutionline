@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use ZipArchive;
 use File;
+use ZipArchive;
+use App\Models\Cuti;
 use App\Models\Upload;
 use Illuminate\Http\Request;
 use App\Models\KategoriUpload;
@@ -14,11 +15,24 @@ class PegawaiController extends Controller
 {
     public function home()
     {
-        return view('pegawai.home');
+        $cuti = Cuti::with('pegawai')->where('pegawai_id', Auth::user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
+        if(Auth::user()->pegawai->karu != null){
+            $jabatan_id = Auth::user()->pegawai->karu->jabatan->pluck('id');
+            $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)
+                                ->where('pegawai_id', '!=',Auth::user()->pegawai->id)
+                                ->orderBy('id','DESC')
+                                ->paginate(10);
+            
+        }else{
+            $daftarCuti = [];
+        }
+        
+        return view('pegawai.home',compact('cuti','daftarCuti'));
     }
     public function profil()
     {
-        return view('pegawai.profil');
+        $data = Auth::user()->pegawai;
+        return view('pegawai.profil',compact('data'));
     }
     
     public function changePegawai(Request $req)
@@ -29,77 +43,48 @@ class PegawaiController extends Controller
             $p = Auth::user();
             $p->password = bcrypt($req->password);
             $p->save();
-            toastr()->success('Password Berhasil Di Ubah');
+            toastr()->info('Password Berhasil Di Ubah');
         }
         return back();
     }
 
-    public function upload()
+    public function editProfil()
     {
-        $pegawai_id = Auth::user()->pegawai->id;
-        $data = KategoriUpload::get()->map(function($item)use($pegawai_id){
-            $item->file = $item->upload->where('pegawai_id', $pegawai_id)->sortByDesc('created_at');
-            return $item;
-        });
-        
-        return view('pegawai.upload.index',compact('data'));
+        $data = Auth::user()->pegawai;
+        return view('pegawai.edit_profil',compact('data'));
+    }
+
+    public function updateProfil(Request $req)
+    {
+        Auth::user()->pegawai->update($req->all());
+        toastr()->info('Profil Berhasil Di Update');
+        return redirect('/pegawai/profil');
     }
     
-    public function addUpload($kategori_id)
+    public function riwayatCuti()
     {
-        $kategori = KategoriUpload::find($kategori_id);
-        return view('pegawai.upload.create',compact('kategori'));
-    }
-    
-    public function storeUpload(Request $req, $kategori_id)
-    {
-        $date = date('-d-m-Y-h-i-s');
-        $kategori = KategoriUpload::find($kategori_id)->nama;
-        
-        $messages = [
-            'mimes' => 'File harus PDF',
-            'max' => 'Maximal 15 MB'
-        ];
-
-        $rules = [
-            'file' =>  'mimes:pdf|required|max:20000',
-        ];
-
-        $req->validate($rules, $messages);
-        
-        $req->flash();
-
-        $filename = $kategori.$date.'.pdf';
-
-        $nip = Auth::user()->pegawai->nip;
-        
-        $req->file->storeAs('/public/'.$nip.'/',$filename);
-
-        $attr['file'] = $filename;
-        $attr['kategori_upload_id'] = $kategori_id;
-        $attr['pegawai_id'] = Auth::user()->pegawai->id;
-        
-        Upload::create($attr);
-        
-        toastr()->success('File Berhasil Di Upload');
-        
-        return redirect('pegawai/upload');
+        $cuti = Cuti::with('pegawai')->where('pegawai_id', Auth::user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
+        return view('pegawai.riwayat_cuti',compact('cuti'));
     }
 
-    public function viewFile($nip, $filename)
+    public function setujui(Cuti $cuti)
     {
-        return response()->file('storage/'.$nip.'/'.$filename);
-    }
-    public function deleteFile($id)
-    {
-        $d = Upload::find($id);
-        $nip = Auth::user()->pegawai->nip;
-        $path = '/public/'.$nip.'/'.$d->file;
-        Storage::delete($path);
-        $d->delete();
-        
-        toastr()->success('File Berhasil Di hapus');
+        $cuti->update([
+            'status' => 1,
+            'validator' => Auth::user()->pegawai->id,
+        ]);
+        toastr()->info('Cuti Di Setujui');
         return back();
     }
 
+    
+    public function tolak(Cuti $cuti)
+    {
+        $cuti->update([
+            'status' => 2,
+            'validator' => Auth::user()->pegawai->id,
+        ]);
+        toastr()->info('Cuti Di Tolak');
+        return back();
+    }
 }

@@ -17,6 +17,16 @@ class Pegawai extends Model
         return $this->belongsTo(Skpd::class, 'skpd_id');
     }
     
+    public function karu()
+    {
+        return $this->hasOne(Ruangan::class, 'karu');
+    }
+
+    public function kai()
+    {
+        return $this->hasOne(Instalasi::class, 'kai');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

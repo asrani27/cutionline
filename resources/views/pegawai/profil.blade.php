@@ -16,34 +16,34 @@
                 <div class="card card-widget widget-user">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header bg-info">
-                    <h3 class="widget-user-username">{{strtoupper(Auth::user()->name)}}</h3>
-                    <h5 class="widget-user-desc">NIP. {{strtoupper(Auth::user()->username)}}</h5>
+                    <h3 class="widget-user-username">{{strtoupper($data->nama)}}</h3>
+                    <h5 class="widget-user-desc">NIP. {{strtoupper($data->nip)}}</h5>
                     </div>
                     <div class="widget-user-image">
-                    <img class="img-circle elevation-2" src="/theme/logo.png" alt="User Avatar">
+                    <img class="img-circle elevation-2" src="/theme/man.png" alt="User Avatar">
                     </div>
                     <div class="card-footer">
                     <div class="row">
                         <div class="col-4 border-right">
                         <div class="description-block">
-                            <h5 class="description-header">E-MAIL</h5>
-                            <span class="description-text">-</span>
+                            <h5 class="description-header">Unit Kerja</h5>
+                            <span class="description-text">{{$data->unit_kerja}}</span>
                         </div>
                         <!-- /.description-block -->
                         </div>
                         <!-- /.col -->
                         <div class="col-4 border-right">
                         <div class="description-block">
-                            <h5 class="description-header">CONTACT</h5>
-                            <span class="description-text">-</span>
+                            <h5 class="description-header">TELP</h5>
+                            <span class="description-text">{{$data->telp}}</span>
                         </div>
                         <!-- /.description-block -->
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
                         <div class="description-block">
-                            <h5 class="description-header">ALAMAT</h5>
-                            <span class="description-text">-</span>
+                            <h5 class="description-header">TMT</h5>
+                            <span class="description-text">{{$data->tmt == null ? '-':\Carbon\Carbon::parse($data->tmt)->format('d-m-Y')}}</span>
                         </div>
                         <!-- /.description-block -->
                         </div>
@@ -51,6 +51,7 @@
                     </div>
                     <!-- /.row -->
                     </div>
+                    <a href="/pegawai/profil/edit" class="btn bg-gradient-purple"><b>Edit Profil</b></a>
                 </div>
               </div>
               
