@@ -44,10 +44,11 @@
                         <div class="form-group row">
                             <label for="inputPassword3" class="col-sm-2 col-form-label">Jabatan</label>
                             <div class="col-sm-10">
-                                <select name="jabatan_id" class="form-control" required>
-                                    <option value="{{$data->jabatan_id}}">{{$data->jabatan->nama}}</option>
+                                <select name="jabatan_id" class="form-control select2" required>
+                                    <option value="">-pilih-</option>
+                                    {{-- <option value="{{$data->jabatan_id}}">{{$data->jabatan->nama}}</option> --}}
                                     @foreach ($dataJab as $item)
-                                    <option value="{{$item->id}}" {{$item->id == $data->jabatan_id ? 'selected': ''}}>{{$item->ruangan->nama}} - {{$item->nama}}</option>
+                                    <option value="{{$item->id}}" {{$item->id == $data->jabatan_id ? 'selected': ''}}>{{$item->ruangan == null ? 'Manajemen':$item->ruangan->nama}} - {{$item->nama}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -68,6 +69,18 @@
 @endsection
 
 @push('js')
+<script src="/theme/plugins/select2/js/select2.full.min.js"></script>
+<script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+  
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+</script>
 
 
 @endpush

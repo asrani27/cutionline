@@ -42,7 +42,7 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>NIP</th>
+                        <th>NIP/NIK</th>
                         <th>Nama</th>
                         <th>Jabatan</th>
                         <th>Aksi</th>

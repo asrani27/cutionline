@@ -17,7 +17,7 @@
             <div class="col-lg-12 col-12">             
                 <div class="card card-info">
                     <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-graduation-cap"></i> Tambah PNS</h3>
+                    <h3 class="card-title"><i class="fas fa-graduation-cap"></i> Tambah Pegawai</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -25,9 +25,9 @@
                         @csrf
                     <div class="card-body">
                         <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">NIP</label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">NIP / NIK</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nip" value="{{ old('nip') }}" placeholder="NIP" required  minlength="18" maxlength="18">
+                            <input type="text" class="form-control" name="nip" value="{{ old('nip') }}" placeholder="NIP / NIK" required  maxlength="18">
                         
                             @if ($errors->has('nip'))
                                 <span class="text-danger">{{ $errors->first('nip') }}</span>
@@ -45,10 +45,10 @@
                         <div class="form-group row">
                         <label for="inputPassword3" class="col-sm-2 col-form-label">Nama Jabatan</label>
                         <div class="col-sm-10">
-                            <select class="form-control" name="jabatan_id">
+                            <select class="form-control select2" name="jabatan_id">
                                 <option value="" selected>-pilih-</option>
                                 @foreach ($jabatan as $item)
-                                <option value="{{$item->id}}">{{$item->ruangan->nama}} - {{$item->nama}}</option>
+                                <option value="{{$item->id}}">{{$item->ruangan == null ? 'Manajemen': $item->ruangan->nama}} - {{$item->nama}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -69,6 +69,18 @@
 @endsection
 
 @push('js')
+<script src="/theme/plugins/select2/js/select2.full.min.js"></script>
+<script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+  
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+</script>
 
 
 @endpush

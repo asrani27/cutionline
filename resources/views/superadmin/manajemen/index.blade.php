@@ -12,15 +12,17 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
-        <h4>JABATAN DI RSUD SULTAN SURIANSYAH</h4>
+        <h4>MANAJEMEN DI RSUD SULTAN SURIANSYAH</h4>
         <div class="row">
             <div class="col-12">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">DATA JABATAN RSUD SULTAN SURIANSYAH</h3>
+                    
+                    <a href="/superadmin/manajemen/struktural/add" class="btn btn-xs btn-info" data-toggle="tooltip" title='Tambah'><i class="fas fa-plus"></i> Tambah Data</a>
+                    <a href="/superadmin/manajemen/struktural/peta" class="btn btn-xs btn-info" data-toggle="tooltip" title='Peta' target="_blank"><i class="fas fa-sitemap"></i> Peta Jabatan</a>
   
                   <div class="card-tools">
-                    <form method="get" action="/superadmin/manajemen/jabatan/search">
+                    <form method="get" action="/superadmin/manajemen/struktural/search">
                     <div class="input-group input-group-sm" style="width: 300px;">
                       <input type="text" name="search" class="form-control input-sm float-right" value="{{old('search')}}" placeholder="Cari">
   
@@ -37,8 +39,8 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Ruangan</th>
                         <th>Nama Jabatan</th>
+                        <th>Atasan</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -49,24 +51,12 @@
                     @foreach ($data as $key => $item)
                           <tr>
                             <td>{{$key+ $data->firstItem()}}</td>
-                            <td>{{$item->nama}}<br />
-                                Ka. Ruangan  : {{$item->karuangan == null ? '-': $item->karuangan->nama}}
-                              </td>
+                            <td>{{$item->nama}}</td>
+                            <td>{{$item->atasan == null ? '-': $item->atasan->nama}}</td>
                             <td>
-                                <ul>
-                                    @foreach ($item->jabatan as $item2)
-                                        <li>{{$item2->nama}}
-                                        
-                                          <a href="/superadmin/manajemen/jabatan/edit/{{$item->id}}/{{$item2->id}}" class="btn btn-xs" data-toggle="tooltip" title='Edit Jabatan'><i class="fas fa-edit"></i></a>
-                                          <a href="/superadmin/manajemen/jabatan/delete/{{$item2->id}}" class="btn btn-xs" data-toggle="tooltip" title='Hapus Jabatan' onclick="return confirm('Yakin ingin di hapus?');"><i class="fas fa-trash"></i></a>
-                                          <a href="/superadmin/manajemen/jabatan/atasan/{{$item2->id}}" class="btn btn-xs" data-toggle="tooltip" title='Atasan Langsung'><i class="fas fa-user"></i></a> <br />
-                                          {{$item2->atasan == null ? '': 'Atasan Langsung : '.$item2->atasan->nama}}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </td>
-                            <td>
-                            <a href="/superadmin/manajemen/jabatan/{{$item->id}}/add" class="btn btn-xs btn-info" data-toggle="tooltip" title='Tambah Jabatan'><i class="fas fa-plus"></i> Jabatan</a>
+                                
+                                <a href="/superadmin/manajemen/struktural/edit/{{$item->id}}" class="btn btn-xs btn-warning" data-toggle="tooltip" title='Edit Jabatan'><i class="fas fa-edit"></i></a>
+                                <a href="/superadmin/manajemen/struktural/delete/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='Hapus Jabatan' onclick="return confirm('Yakin ingin di hapus?');"><i class="fas fa-trash"></i></a>
                             </td>
                           </tr>
                       @endforeach

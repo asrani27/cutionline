@@ -53,14 +53,17 @@
                     @foreach ($data as $key => $item)
                           <tr>
                             <td>{{$key+ $data->firstItem()}}</td>
-                            <td>{{$item->nama}}</td>
+                            <td>{{$item->nama}} <br/>
+                              Ka. Instalasi : {{$item->kainstalasi == null ? '-': $item->kainstalasi->nama}}
+                            </td>
                             <td>
                                 <ul>
                                     @foreach ($item->ruangan as $item2)
                                         <li>{{$item2->nama}}
                                         
                                           <a href="/superadmin/manajemen/instalasi/{{$item->id}}/ruangan/edit/{{$item2->id}}" class="btn btn-xs" data-toggle="tooltip" title='Edit Ruangan'><i class="fas fa-edit"></i></a>
-                                          <a href="/superadmin/manajemen/instalasi/{{$item->id}}/ruangan/delete/{{$item2->id}}" class="btn btn-xs" data-toggle="tooltip" title='Hapus Ruangan' onclick="return confirm('Yakin ingin di hapus?');"><i class="fas fa-trash"></i></a>
+                                          <a href="/superadmin/manajemen/instalasi/{{$item->id}}/ruangan/delete/{{$item2->id}}" class="btn btn-xs" data-toggle="tooltip" title='Hapus Ruangan' onclick="return confirm('Yakin ingin di hapus?');"><i class="fas fa-trash"></i></a> <br />
+                                          Ka. Ruangan : {{$item2->karuangan == null ? '-':$item2->karuangan->nama}}
                                         </li>
                                     @endforeach
                                 </ul>

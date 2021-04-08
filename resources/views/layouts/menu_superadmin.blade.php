@@ -49,6 +49,22 @@
         </p>
     </a>
     </li>
+    <li class="nav-item">
+    <a href="/superadmin/manajemen/struktural" class="nav-link {{ Request::is('superadmin/manajemen/struktural*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-sitemap"></i>
+        <p>
+            Manajemen 
+        </p>
+    </a>
+    </li>
+    <li class="nav-item">
+    <a href="/superadmin/datacuti" class="nav-link {{ Request::is('superadmin/datacuti') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-file"></i>
+        <p>
+            Data Cuti 
+        </p>
+    </a>
+    </li>
     {{-- <li class="nav-item">
     <a href="/superadmin/setting/kategori/upload" class="nav-link {{ Request::is('superadmin/setting/kategori/upload') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file"></i>

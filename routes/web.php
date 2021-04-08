@@ -8,6 +8,7 @@ use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\InstalasiController;
+use App\Http\Controllers\ManajemenController;
 use App\Http\Controllers\SuperadminController;
 
 Route::get('/', [LoginController::class, 'index']);
@@ -79,6 +80,18 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/manajemen/jabatan/edit/{ruangan}/{jabatan}', [JabatanController::class, 'edit']);
     Route::put('/superadmin/manajemen/jabatan/edit/{ruangan}/{jabatan}', [JabatanController::class, 'update']);
     Route::get('/superadmin/manajemen/jabatan/delete/{jabatan}', [JabatanController::class, 'destroy']);
+    Route::get('/superadmin/manajemen/jabatan/atasan/{id}', [JabatanController::class, 'atasan']);
+    Route::post('/superadmin/manajemen/jabatan/atasan/{id}', [JabatanController::class, 'updateAtasan']);
+
+    Route::get('/superadmin/manajemen/struktural', [ManajemenController::class, 'index']);
+    Route::get('/superadmin/manajemen/struktural/add', [ManajemenController::class, 'create']);
+    Route::post('/superadmin/manajemen/struktural/add', [ManajemenController::class, 'store']);
+    Route::get('/superadmin/manajemen/struktural/edit/{id}', [ManajemenController::class, 'edit']);
+    Route::post('/superadmin/manajemen/struktural/edit/{id}', [ManajemenController::class, 'update']);
+    Route::get('/superadmin/manajemen/struktural/delete/{id}', [ManajemenController::class, 'delete']);
+
+    Route::get('/superadmin/datacuti', [SuperadminController::class, 'datacuti']);
+
 });
 
 

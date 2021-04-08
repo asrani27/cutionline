@@ -28,6 +28,12 @@ class SuperadminController extends Controller
         return view('superadmin.home',compact('cuti','pegawai'));
     }
 
+    public function datacuti()
+    {
+        $cuti = Cuti::with('pegawai')->orderBy('id','DESC')->paginate(10);
+        
+        return view('superadmin.cuti',compact('cuti'));
+    }
     public function import()
     {
         return view('superadmin.pegawai.import');

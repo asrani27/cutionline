@@ -13,13 +13,18 @@ use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller
 {
+
+    public function user()
+    {
+        return Auth::user();
+    }
     public function home()
     {
-        $cuti = Cuti::with('pegawai')->where('pegawai_id', Auth::user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
-        if(Auth::user()->pegawai->karu != null){
-            $jabatan_id = Auth::user()->pegawai->karu->jabatan->pluck('id');
+        $cuti = Cuti::with('pegawai')->where('pegawai_id', $this->user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
+        if($this->user()->pegawai->karu != null){
+            $jabatan_id = $this->user()->pegawai->karu->jabatan->pluck('id');
             $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)
-                                ->where('pegawai_id', '!=',Auth::user()->pegawai->id)
+                                ->where('pegawai_id', '!=',$this->user()->pegawai->id)
                                 ->orderBy('id','DESC')
                                 ->paginate(10);
             
@@ -27,7 +32,18 @@ class PegawaiController extends Controller
             $daftarCuti = [];
         }
         
-        return view('pegawai.home',compact('cuti','daftarCuti'));
+        $checkAtasan = $this->user()->pegawai->jabatan->atasan;
+        if($checkAtasan == null){
+            if($this->user()->pegawai->karu != null){
+                $atasan = $this->user()->pegawai->jabatan->ruangan->instalasi->kainstalasi;
+            }else{
+                $atasan = $this->user()->pegawai->jabatan->ruangan->karuangan;
+            }
+        }else{
+            $atasan = $checkAtasan;
+        }
+
+        return view('pegawai.home',compact('cuti','daftarCuti','atasan'));
     }
     public function profil()
     {

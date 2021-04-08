@@ -17,7 +17,7 @@
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header bg-info">
                     <h3 class="widget-user-username">{{strtoupper($data->nama)}}</h3>
-                    <h5 class="widget-user-desc">NIP. {{strtoupper($data->nip)}}</h5>
+                    <h5 class="widget-user-desc">NIP/NIK. {{strtoupper($data->nip)}}</h5>
                     </div>
                     <div class="widget-user-image">
                     <img class="img-circle elevation-2" src="/theme/man.png" alt="User Avatar">
@@ -68,7 +68,7 @@
                 <div class="form-group row">
                   <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="{{Auth::user()->name}}" readonly>
+                    <input type="text" class="form-control" value="{{Auth::user()->username}}" readonly>
                   </div>
                 </div>
                 <div class="form-group row">

@@ -22,4 +22,9 @@ class Ruangan extends Model
     {
         return $this->hasMany(Jabatan::class, 'ruangan_id');
     }
+
+    public function karuangan()
+    {
+        return $this->hasOne(Pegawai::class, 'id', 'karu');
+    }
 }

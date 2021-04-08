@@ -24,6 +24,7 @@ class InstalasiController extends Controller
     public function updateKai(Request $req)
     {
         $pegawai = $req->pegawai_id;
+        
         foreach($req->instalasi_id as $key => $item)
         {
             Instalasi::find($item)->update([

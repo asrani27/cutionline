@@ -26,6 +26,23 @@ class JabatanController extends Controller
         return redirect('/superadmin/manajemen/jabatan');
     }
 
+    public function atasan($id)
+    {
+        $atasan = Jabatan::where('jenis', 'manajemen')->get();
+        $data = Jabatan::find($id);
+        return view('superadmin.jabatan.atasan',compact('data','atasan'));
+    }
+
+    public function updateAtasan(Request $req, $id)
+    {
+        Jabatan::find($id)->update([
+            'jabatan_id' => $req->jabatan_id,
+        ]);
+        
+        toastr()->info('Atasan berhasil di Simpan');
+
+        return redirect('/superadmin/manajemen/jabatan');
+    }
     public function create(Ruangan $ruangan)
     {
         $jabatan = Jabatan::where('ruangan_id', $ruangan->id)->get();

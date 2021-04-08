@@ -60,7 +60,7 @@
 			NOMOR 24 TAHUN 2017<br />
 			TENTANG<br />
 			TATA CARA PEMBERIAN CUTI PEGAWAI NEGERI SIPIL<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Banjarmasin, {{\Carbon\Carbon::now()->format('d M Y')}}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Banjarmasin, {{\Carbon\Carbon::now()->isoFormat('d MMMM Y')}}<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 			Kepada<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Yth. Kepala 
@@ -94,7 +94,7 @@
 			</tr>
 			<tr>
 				<td class="auto-style6" style="width: 125px">Unit Kerja</td>
-				<td class="auto-style1" style="width: 182px">&nbsp;</td>
+				<td class="auto-style1" style="width: 182px">{{$cuti->pegawai->unit_kerja}}</td>
 				<td class="auto-style1" style="width: 101px">&nbsp;</td>
 				<td class="auto-style1" style="width: 240px">&nbsp;</td>
 			</tr>
@@ -107,23 +107,23 @@
 			</tr>
 			<tr>
 				<td class="auto-style6" style="width: 148px">1. Cuti Tahunan</td>
-				<td class="auto-style1" style="width: 182px">&nbsp;</td>
+				<td class="auto-style1" style="width: 182px;text-align:center;">{{$cuti->jenis_cuti_id == 1 ? 'V':'-'}}</td>
 				<td class="auto-style6" style="width: 163px">2. Cuti Besar</td>
-				<td class="auto-style1" style="width: 155px">&nbsp;</td>
+				<td class="auto-style1" style="width: 155px;text-align:center;">{{$cuti->jenis_cuti_id == 2 ? 'V':'-'}}</td>
 			</tr>
 			<tr>
 				<td class="auto-style6" style="width: 148px">3. Cuti Sakit</td>
-				<td class="auto-style1" style="width: 182px">&nbsp;</td>
+				<td class="auto-style1" style="width: 182px;text-align:center;">{{$cuti->jenis_cuti_id == 3 ? 'V':'-'}}</td>
 				<td class="auto-style6" style="width: 163px">4. Cuti Melahirkan</td>
-				<td class="auto-style1" style="width: 155px">&nbsp;</td>
+				<td class="auto-style1" style="width: 155px;text-align:center;">{{$cuti->jenis_cuti_id == 4 ? 'V':'-'}}</td>
 			</tr>
 			<tr>
 				<td class="auto-style6" style="width: 148px">5. Cuti Karena 
 				Alasan Penting</td>
-				<td class="auto-style1" style="width: 182px">&nbsp;</td>
+				<td class="auto-style1" style="width: 182px;text-align:center;">{{$cuti->jenis_cuti_id == 5 ? 'V':'-'}}</td>
 				<td class="auto-style6" style="width: 163px">6. Cuti Diluar 
 				Tanggungan Negara</td>
-				<td class="auto-style1" style="width: 155px">&nbsp;</td>
+				<td class="auto-style1" style="width: 155px;text-align:center;">{{$cuti->jenis_cuti_id == 6 ? 'V':'-'}}</td>
 			</tr>
 		</table>		
 
@@ -153,9 +153,9 @@
 			</tr>
 			<tr class="auto-style2">
 				<td class="auto-style6" style="width: 148px">Selama&nbsp;</td>
-				<td class="auto-style1" style="width: 182px">&nbsp;</td>
-				<td class="auto-style6" style="width: 163px">mulai tanggal</td>
-				<td class="auto-style1" style="width: 155px">s/d</td>
+				<td class="auto-style1" style="width: 182px">{{$cuti->lama}} Hari</td>
+				<td class="auto-style6" style="width: 163px">mulai tanggal : {{\Carbon\Carbon::parse($cuti->mulai)->format('d/m/Y')}}</td>
+				<td class="auto-style1" style="width: 155px">s/d  {{\Carbon\Carbon::parse($cuti->sampai)->format('d/m/Y')}}</td>
 			</tr>
 		</table>		
 
@@ -213,13 +213,13 @@
 				<td class="auto-style1" style="width: 155px">&nbsp;</td>
 			</tr>
 			<tr class="auto-style2">
-				<td class="auto-style6" style="height: 46px;" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				<td class="auto-style6" style="height: 46px;" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 				Hormat Saya,<br />
 				<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-				(.........................................................)<br />
+				({{$cuti->pegawai->nama}})<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-				NIP. </td>
+				NIP. {{$cuti->pegawai->nip}}</td>
 			</tr>
 		</table>	
 		<br />
@@ -235,16 +235,10 @@
 				<td class="auto-style7" style="width: 155px">TIDAK DISETUJUI****</td>
 			</tr>
 			<tr class="auto-style2">
-				<td class="auto-style8" style="width: 148px">&nbsp;</td>
+				<td class="auto-style8" style="width: 148px; text-align:center">{{$cuti->status == 1 ? 'V':''}}</td>
 				<td class="auto-style7" style="width: 182px">&nbsp;</td>
 				<td class="auto-style8" style="width: 163px">&nbsp;</td>
-				<td class="auto-style7" style="width: 155px">&nbsp;</td>
-			</tr>
-			<tr class="auto-style2">
-				<td class="auto-style8" style="width: 148px">&nbsp;</td>
-				<td class="auto-style7" style="width: 182px">&nbsp;</td>
-				<td class="auto-style8" style="width: 163px">&nbsp;</td>
-				<td class="auto-style7" style="width: 155px">&nbsp;</td>
+				<td class="auto-style7" style="width: 155px">{{$cuti->status == 2 ? 'V':''}}</td>
 			</tr>
 		</table>		
 
@@ -259,12 +253,6 @@
 				<td class="auto-style7" style="width: 182px">PERUBAHAN****</td>
 				<td class="auto-style8" style="width: 163px">DITANGGUHKAN****</td>
 				<td class="auto-style7" style="width: 155px">TIDAK DISETUJUI****</td>
-			</tr>
-			<tr class="auto-style2">
-				<td class="auto-style8" style="width: 148px">&nbsp;</td>
-				<td class="auto-style7" style="width: 182px">&nbsp;</td>
-				<td class="auto-style8" style="width: 163px">&nbsp;</td>
-				<td class="auto-style7" style="width: 155px">&nbsp;</td>
 			</tr>
 			<tr class="auto-style2">
 				<td class="auto-style8" style="width: 148px">&nbsp;</td>

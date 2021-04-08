@@ -18,4 +18,8 @@ class Instalasi extends Model
         return $this->hasMany(Ruangan::class, 'instalasi_id');
     }
 
+    public function kainstalasi()
+    {
+        return $this->hasOne(Pegawai::class, 'id', 'kai');
+    }
 }

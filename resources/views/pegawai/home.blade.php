@@ -8,7 +8,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-lg-12 col-12">
+            <div class="col-lg-6 col-12">
                 <div class="card card-widget widget-user-2">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header bg-gradient-purple">
@@ -27,11 +27,46 @@
                         Kai {{Auth::user()->pegawai->kai->nama}}
                       @endif  
                       </h5>
+                      <h5 class="widget-user-desc">{{Auth::user()->pegawai->jabatan == null ? '-': Auth::user()->pegawai->jabatan->ruangan->nama}}</h5>
                       
                     </div>
                     
                   </div>
             </div>
+            
+            <div class="col-lg-6 col-12">
+              <div class="card card-widget widget-user-2">
+                  <!-- Add the bg color to the header using any of the bg-* classes -->
+                  <div class="widget-user-header bg-gradient-purple">
+                    <div class="widget-user-image">
+                      <img class="img-circl elevation-2" src="/theme/pemko.png" alt="User Avatar">
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">Atasan : {{$atasan->nama}}</h3>
+                    <h5 class="widget-user-desc">{{$atasan->jabatan == null ? '-': $atasan->jabatan->nama}}
+                    -
+                    
+                    @if ($atasan->karu != null)
+                      Ka. Ruangan : {{$atasan->karu->nama}}<br/>
+                      <h5 class="widget-user-desc">
+                           {{$atasan->karu->nama}}
+                      </h5>
+                    @endif                        
+                    @if ($atasan->kai != null)
+                      Ka. Instalasi {{$atasan->kai->nama}}<br/>
+                      <h5 class="widget-user-desc">
+                          {{$atasan->kai->nama}}
+                      </h5>
+                    @endif  
+                    </h5>
+                    <h5 class="widget-user-desc">
+                      
+                    </h5>
+                    
+                  </div>
+                  
+                </div>
+          </div>
         </div>
         <div class="row">
             <div class="col-lg-12 col-12">
@@ -65,7 +100,7 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>NIP</th>
+                    <th>NIP/NIK</th>
                     <th>Nama</th>
                     <th>Jabatan</th>
                     <th>Tgl Mulai</th>

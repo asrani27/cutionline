@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 @endpush
 @section('title')
-    JABATAN
+    ATASAN LANGSUNG
 @endsection
 @section('content')
 <div class="row">
@@ -17,42 +17,35 @@
             <div class="col-lg-12 col-12">             
                 <div class="card card-info">
                     <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-th"></i> Tambah Jabatan</h3>
+                    <h3 class="card-title"><i class="fas fa-th"></i> Edit Atasan Langsung</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="/superadmin/manajemen/jabatan/{{$ruangan->id}}/add">
+                    <form class="form-horizontal" method="POST" action="/superadmin/manajemen/jabatan/atasan/{{$data->id}}">
                         @csrf
-                    <div class="card-body">
+                    <div class="card-body">                        
                         <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Nama Ruangan</label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Pilih Atasan</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" value="{{$ruangan->nama}}" readonly>
-                        </div>
-                        </div>
-                        
-                        {{-- <div class="form-group row">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Atasan Langsung</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="jabatan_id">
+                            <select class="form-control select2" name="jabatan_id">
                                 <option value="" selected>-pilih-</option>
-                                @foreach ($jabatan as $item)
-                                <option value="{{$item->id}}" selected>{{$item->nama}}</option>
+                                @foreach ($atasan as $item)
+                                <option value="{{$item->id}}">{{$item->nama}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        </div> --}}
+                        </div>
 
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Nama Jabatan</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama" placeholder="Nama Jabatan" required>
+                            <input type="text" class="form-control" name="nama" value="{{$data->nama}}" readonly>
                         </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Simpan</button>
+                        <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Update</button>
                     </div>
                     <!-- /.card-footer -->
                     </form>
@@ -66,5 +59,17 @@
 
 @push('js')
 
+<script src="/theme/plugins/select2/js/select2.full.min.js"></script>
+<script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+  
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+</script>
 
 @endpush
