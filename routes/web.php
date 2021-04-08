@@ -17,6 +17,7 @@ Route::get('/login', function(){
     return redirect('/');
 })->name('login');
 
+Route::get('/check/verifikasi/digital/cuti/rsud/{id}', [LoginController::class, 'qrcode']);
 
 Route::get('/logout', function(){
     Auth::logout();

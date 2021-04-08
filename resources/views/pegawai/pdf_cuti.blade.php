@@ -24,6 +24,11 @@
 	border: 1px solid #000000;
 	margin-left: 21px;
 }
+
+.auto-style11 {
+	border: 0px solid #000000;
+	margin-left: 21px;
+}
 .auto-style6 {
 	text-align: left;
 	border-style: solid;
@@ -264,18 +269,34 @@
 
 		<div class="auto-style9">
 			<br />
-&nbsp;&nbsp;&nbsp; Catatan :<br />
-&nbsp;&nbsp;&nbsp; * Coret Yang Tidak Perlu<span class="auto-style2"><br />
+		<table cellpadding="2" cellspacing="0" class="auto-style11" style="width: 47%">
+			<tr>
+		<span class="auto-style2">
+				<td style="width: 583px">
+		<span class="auto-style2">Catatan :<br />
+&nbsp;&nbsp;&nbsp; * Coret Yang Tidak Perlu<br />
 &nbsp;&nbsp;&nbsp; ** Pilih Salah Satu Dengan Memberi tanda centang <br />
 &nbsp;&nbsp;&nbsp; *** Di isi oleh pejabatn yang menangani bidang kepegawaian 
 			sebelum PNS mengajukan cuti<br />
 &nbsp;&nbsp;&nbsp; **** diberi tanda centang dan alasannya<br />
 &nbsp;&nbsp;&nbsp; N&nbsp;&nbsp;&nbsp;&nbsp; = cuti tahun berjalan<br />
 &nbsp;&nbsp;&nbsp; N-1 = Sisa Cuti 1 tahun sebelumnya<br />
-&nbsp;&nbsp;&nbsp; N-2 = Sisa cuti 2 tahun sebelumnya </span>&nbsp;&nbsp;&nbsp;&nbsp;		
+&nbsp;&nbsp;&nbsp; N-2 = Sisa cuti 2 tahun sebelumnya &nbsp;&nbsp;&nbsp;</td>
+				</span>
+		<span class="auto-style2"></span>
+		<span class="auto-style2">
+				<td>
+		<span class="auto-style2">	
+		<img src="data:image/png;base64, {!! $qrcode !!}" width="80" height="80"></td>
+				</span>
+		<span class="auto-style2"></span>
+			</tr>
+		</table>		
 
-		<br />
-		</div>
+			<br />
+			&nbsp;&nbsp;&nbsp; &nbsp;	
+		<br />	
+		&nbsp;</div>
 	</div>
 </div>
 

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Cuti;
-use Barryvdh\DomPDF\Facade as PDF;
 use App\Models\Jenis_cuti;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CutiController extends Controller
 {
@@ -71,9 +72,13 @@ class CutiController extends Controller
 
     public function pdf(Cuti $cuti)
     {
+        $url = env('APP_URL').'/check/verifikasi/digital/cuti/rsud/'.$cuti->id;
+        
+        $qrcode = base64_encode(QrCode::format('svg')->size(600)->errorCorrection('H')->generate($url));
+        
         $customPaper = array(0,0,610,1160);
         
-        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti'))->setPaper($customPaper);
+        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti','qrcode'))->setPaper($customPaper);
         return $pdf->download('pdf.pdf');
     }
 }

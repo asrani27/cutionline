@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cuti;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -26,5 +27,11 @@ class LoginController extends Controller
             toastr()->error('Username / Password Tidak Ditemukan');
             return back();
         }
+    }
+
+    public function qrcode($id)
+    {
+        $cuti = Cuti::find($id);
+        return view('verifikasi',compact('cuti'));
     }
 }
