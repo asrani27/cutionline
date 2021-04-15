@@ -33,7 +33,7 @@ class PegawaiController extends Controller
         }
         
         $checkAtasan = $this->user()->pegawai->jabatan->atasan;
-        if($checkAtasan == null){
+        if($checkAtasan == null && $this->user()->pegawai->jabatan->jenis != 'manajemen'){
             if($this->user()->pegawai->karu != null){
                 $atasan = $this->user()->pegawai->jabatan->ruangan->instalasi->kainstalasi;
             }else{
