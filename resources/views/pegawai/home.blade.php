@@ -50,11 +50,12 @@
                       <img class="img-circl elevation-2" src="/theme/pemko.png" alt="User Avatar">
                     </div>
                     <!-- /.widget-user-image -->
-                    <h3 class="widget-user-username">Atasan : {{$atasan->pegawai->first()->nama}}</h3>
                     @if ($atasan->jenis == 'manajemen')
+                    <h3 class="widget-user-username">Atasan : {{$atasan->pegawai->first()->nama}}</h3>
                       <h5 class="widget-user-desc">{{$atasan->nama}}<br/>Manajemen</h5>
                       
                     @else
+                    <h3 class="widget-user-username">Atasan : {{$atasan->nama}}</h3>
                       <h5 class="widget-user-desc">{{$atasan->jabatan == null ? '-': $atasan->jabatan->nama}}
                         -
                         @if ($atasan->karu != null)
