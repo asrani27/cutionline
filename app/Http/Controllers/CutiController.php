@@ -28,9 +28,9 @@ class CutiController extends Controller
         $attr = $req->all();
         $attr['lama'] = $mulai->diffInDays($sampai)+1;
         $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
-        $attr['instalasi'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->ruangan->instalasi->nama;
-        $attr['ruangan'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->ruangan->nama;
-        
+        $attr['instalasi'] = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+        $attr['ruangan'] =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+        //dd($attr);
         Cuti::create($attr);
         toastr()->info('Cuti Berhasil Di Ajukan, menunggu persetujuan');
         return redirect('/pegawai/home');

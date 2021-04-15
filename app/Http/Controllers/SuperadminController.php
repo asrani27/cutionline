@@ -42,7 +42,10 @@ class SuperadminController extends Controller
     public function searchPegawai()
     {
         $search = request()->get('search');
-        $data = Pegawai::where('nip','LIKE', '%'.$search.'%')->orWhere('nama','LIKE', '%'.$search.'%')->paginate(10);
+        $data = Pegawai::with('jabatan')->where('nip','LIKE', '%'.$search.'%')->orWhere('nama','LIKE', '%'.$search.'%')
+                        ->orwhereHas('jabatan', function ($query) use ($search){
+                            $query->where('nama', 'like', '%'.$search.'%');
+                        })->paginate(10);
         
         request()->flash();
         return view('superadmin.pegawai.index',compact('data'));
