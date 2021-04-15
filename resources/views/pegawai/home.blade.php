@@ -19,24 +19,24 @@
                       <h3 class="widget-user-username">Selamat Datang, {{Auth::user()->name}}</h3>
                       <h5 class="widget-user-desc">{{Auth::user()->pegawai->jabatan == null ? '-': Auth::user()->pegawai->jabatan->nama}}
                       -
-                      
+
                       @if (Auth::user()->pegawai->karu != null)
                         Karu {{Auth::user()->pegawai->karu->nama}}
                       @endif                        
                       @if (Auth::user()->pegawai->kai != null)
                         Kai {{Auth::user()->pegawai->kai->nama}}
                       @endif  
-                      </h5>
+                      
                       @if (Auth::user()->pegawai->jabatan == null)
                           -
                       @else
                           @if (Auth::user()->pegawai->jabatan->jenis == 'manajemen')
-                          <h5 class="widget-user-desc">Manajemen</h5>
+                          <br/>Manajemen 
                           @else
-                          <h5 class="widget-user-desc">{{Auth::user()->pegawai->jabatan->ruangan->nama}}</h5>
+                          {{Auth::user()->pegawai->jabatan->ruangan->nama}}
                           @endif
                       @endif
-                      
+                      </h5>
                     </div>
                     
                   </div>
@@ -50,23 +50,28 @@
                       <img class="img-circl elevation-2" src="/theme/pemko.png" alt="User Avatar">
                     </div>
                     <!-- /.widget-user-image -->
-                    <h3 class="widget-user-username">Atasan : {{$atasan->nama}}</h3>
-                    <h5 class="widget-user-desc">{{$atasan->jabatan == null ? '-': $atasan->jabatan->nama}}
-                    -
+                    <h3 class="widget-user-username">Atasan : {{$atasan->pegawai->first()->nama}}</h3>
+                    @if ($atasan->jenis == 'manajemen')
+                      <h5 class="widget-user-desc">{{$atasan->nama}}<br/>Manajemen</h5>
+                      
+                    @else
+                      <h5 class="widget-user-desc">{{$atasan->jabatan == null ? '-': $atasan->jabatan->nama}}
+                        -
+                        @if ($atasan->karu != null)
+                          Ka. Ruangan : {{$atasan->karu->nama}}<br/>
+                          <h5 class="widget-user-desc">
+                              {{$atasan->karu->nama}}
+                          </h5>
+                        @endif                        
+                        @if ($atasan->kai != null)
+                          Ka. Instalasi {{$atasan->kai->nama}}<br/>
+                          <h5 class="widget-user-desc">
+                              {{$atasan->kai->nama}}
+                          </h5>
+                        @endif  
+                      </h5>
+                    @endif
                     
-                    @if ($atasan->karu != null)
-                      Ka. Ruangan : {{$atasan->karu->nama}}<br/>
-                      <h5 class="widget-user-desc">
-                           {{$atasan->karu->nama}}
-                      </h5>
-                    @endif                        
-                    @if ($atasan->kai != null)
-                      Ka. Instalasi {{$atasan->kai->nama}}<br/>
-                      <h5 class="widget-user-desc">
-                          {{$atasan->kai->nama}}
-                      </h5>
-                    @endif  
-                    </h5>
                     <h5 class="widget-user-desc">
                       
                     </h5>
