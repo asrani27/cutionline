@@ -51,7 +51,8 @@
                     </div>
                     <!-- /.widget-user-image -->
                     @if ($atasan->jenis == 'manajemen')
-                    <h3 class="widget-user-username">Atasan : {{$atasan->pegawai->first()->nama}}</h3>
+                  
+                    <h3 class="widget-user-username">Atasan : {{count($atasan->pegawai) == 0 ? '-': $atasan->pegawai->first()->nama}}</h3>
                       <h5 class="widget-user-desc">{{$atasan->nama}}<br/>Manajemen</h5>
                       
                     @else
