@@ -27,7 +27,15 @@
                         Kai {{Auth::user()->pegawai->kai->nama}}
                       @endif  
                       </h5>
-                      <h5 class="widget-user-desc">{{Auth::user()->pegawai->jabatan == null ? '-': Auth::user()->pegawai->jabatan->ruangan->nama}}</h5>
+                      @if (Auth::user()->pegawai->jabatan == null)
+                          -
+                      @else
+                          @if (Auth::user()->pegawai->jabatan->jenis == 'manajemen')
+                          <h5 class="widget-user-desc">Manajemen</h5>
+                          @else
+                          <h5 class="widget-user-desc">{{Auth::user()->pegawai->jabatan->ruangan->nama}}</h5>
+                          @endif
+                      @endif
                       
                     </div>
                     
