@@ -110,7 +110,7 @@
             </div>
         </div>
         
-        @if (Auth::user()->pegawai->karu != null)
+        @if (count($daftarCuti) != 0)
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">DAFTAR KARYAWAN MENGAJUKAN CUTI</h3>
@@ -122,13 +122,14 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>NIP/NIK</th>
-                    <th>Nama</th>
-                    <th>Jabatan</th>
+                    <th>NIP/NIK/Nama/Jabatan</th>
+                    <th>Instalasi</th>
+                    <th>Ruangan</th>
                     <th>Tgl Mulai</th>
                     <th>Tgl Sampai</th>
                     <th>Lama</th>
                     <th>Status</th>
+                    <th>Pengganti</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -138,11 +139,14 @@
                 <tbody>
                   @foreach ($daftarCuti as $item)
                       
-                  <tr>
+                  <tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
                     <td>{{$no++}}</td>
-                    <td>{{$item->pegawai->nip}}</td>
-                    <td>{{$item->pegawai->nama}}</td>
-                    <td>{{$item->jabatan == null ? '': $item->jabatan->nama}}</td>
+                    <td>{{$item->pegawai->nama}}<br/>
+                      NIP/NIK.{{$item->pegawai->nip}}<br/>
+                      {{$item->jabatan == null ? '': $item->jabatan->nama}}
+                    </td>
+                    <td>{{$item->instalasi}}</td>
+                    <td>{{$item->ruangan}}</td>
                     <td>{{\Carbon\Carbon::parse($item->mulai)->format('d M Y')}}</td>
                     <td>{{\Carbon\Carbon::parse($item->sampai)->format('d M Y')}}</td>
                     <td>{{$item->lama}} Hari kerja</td>
@@ -154,6 +158,22 @@
                       @else
                           <span class="badge badge-danger">Ditolak</span>
                       @endif
+                    </td>
+                    <td>
+                      @if ($item->dari == NULL)
+                          -
+                      @elseif ($item->dari == 1)
+                        Dari : Dalam RS<br/>
+                        NIK/NIP : {{$item->nik_p}}<br/>
+                        Nama : {{$item->nama_p}}<br/>
+                        Telp : {{$item->telp_p}}<br/>
+                      @else
+                        Dari : Luar RS<br/>
+                        NIK/NIP : {{$item->nik_p}}<br/>
+                        Nama : {{$item->nama_p}}<br/>
+                        Telp : {{$item->telp_p}}<br/>
+                      @endif
+                      
                     </td>
                     <td>
                       @if ($item->status == NULL)
@@ -187,9 +207,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>NIP</th>
-                  <th>Nama</th>
-                  <th>Jabatan</th>
+                  <th>NIP/NIK/Nama/Jabatan</th>
                   <th>Instalasi</th>
                   <th>Ruangan</th>
                   <th>Tgl Mulai</th>
@@ -208,9 +226,9 @@
                     
                 <tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
                   <td>{{$no++}}</td>
-                  <td>{{$item->pegawai->nip}}</td>
-                  <td>{{$item->pegawai->nama}}</td>
-                  <td>{{$item->jabatan == null ? '':$item->jabatan->nama}}</td>
+                  <td>{{$item->pegawai->nama}}<br/>
+                    NIP/NIK.{{$item->pegawai->nip}}<br/>
+                    {{$item->jabatan == null ? '':$item->jabatan->nama}}</td>
                   <td>{{$item->instalasi}}</td>
                   <td>{{$item->ruangan}}</td>
                   <td>{{\Carbon\Carbon::parse($item->mulai)->format('d M Y')}}</td>

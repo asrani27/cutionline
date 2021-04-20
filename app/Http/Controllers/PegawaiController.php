@@ -21,16 +21,25 @@ class PegawaiController extends Controller
     public function home()
     {
         $cuti = Cuti::with('pegawai')->where('pegawai_id', $this->user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
-        
-        if($this->user()->pegawai->karu != null){
-            $jabatan_id = $this->user()->pegawai->karu->jabatan->pluck('id');
-            $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)
-                                ->where('pegawai_id', '!=',$this->user()->pegawai->id)
-                                ->orderBy('id','DESC')
-                                ->paginate(10);
-            
+        if($this->user()->pegawai->jabatan->view == 1){
+            $daftarCuti = Cuti::orderBy('id', 'DESC')->paginate(10);
         }else{
-            $daftarCuti = [];
+            if($this->user()->pegawai->jabatan->jenis == 'manajemen'){
+                $bawahan_id = $this->user()->pegawai->jabatan->bawahan->pluck('id');
+                $daftarCuti = Cuti::whereIn('jabatan_id', $bawahan_id)->paginate(10);
+                
+            }else{
+                if($this->user()->pegawai->karu != null){
+                    $jabatan_id = $this->user()->pegawai->karu->jabatan->pluck('id');
+                    $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)
+                                        ->where('pegawai_id', '!=',$this->user()->pegawai->id)
+                                        ->orderBy('id','DESC')
+                                        ->paginate(10);
+                    
+                }else{
+                    $daftarCuti = [];
+                }
+            }
         }
         
         $checkAtasan = $this->user()->pegawai->jabatan->atasan;
