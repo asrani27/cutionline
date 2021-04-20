@@ -19,7 +19,7 @@
                 <div class="card-header">
                     
                     <a href="/superadmin/manajemen/struktural/add" class="btn btn-xs btn-info" data-toggle="tooltip" title='Tambah'><i class="fas fa-plus"></i> Tambah Data</a>
-                    <a href="/superadmin/manajemen/struktural/peta" class="btn btn-xs btn-info" data-toggle="tooltip" title='Peta' target="_blank"><i class="fas fa-sitemap"></i> Peta Jabatan</a>
+                    {{-- <a href="/superadmin/manajemen/struktural/peta" class="btn btn-xs btn-info" data-toggle="tooltip" title='Peta' target="_blank"><i class="fas fa-sitemap"></i> Peta Jabatan</a> --}}
   
                   <div class="card-tools">
                     <form method="get" action="/superadmin/manajemen/struktural/search">
