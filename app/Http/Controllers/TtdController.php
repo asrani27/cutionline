@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ttd;
+use App\Models\Kadinkes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,7 +12,8 @@ class TtdController extends Controller
     public function index()
     {
         $data = Ttd::paginate(10);
-        return view('superadmin.ttd.index',compact('data'));
+        $kadinkes = Kadinkes::get();
+        return view('superadmin.ttd.index',compact('data','kadinkes'));
     }
 
     public function upload($id)
@@ -40,6 +42,20 @@ class TtdController extends Controller
             'file' => $filename,
         ]);
 
+        toastr()->info('Berhasil Di Update');
+        return redirect('/superadmin/ttd');
+    }
+
+    public function editKadinkes($id)
+    {
+        $data = Kadinkes::find($id);
+        return view('superadmin.ttd.kadinkes',compact('data'));
+    }
+    
+    public function updateKadinkes(Request $req, $id)
+    {
+        Kadinkes::find($id)->update($req->all());
+        toastr()->info('Berhasil Di Update');
         return redirect('/superadmin/ttd');
     }
 }

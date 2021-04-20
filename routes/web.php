@@ -96,6 +96,9 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/ttd/upload/{id}', [TtdController::class, 'upload']);
     Route::post('/superadmin/ttd/upload/{id}', [TtdController::class, 'update']);
     
+    Route::get('/superadmin/ttd/kadinkes/{id}', [TtdController::class, 'editKadinkes']);
+    Route::post('/superadmin/ttd/kadinkes/{id}', [TtdController::class, 'updateKadinkes']);
+    
 
     Route::get('/superadmin/datacuti', [SuperadminController::class, 'datacuti']);
 
@@ -119,4 +122,8 @@ Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/ajukan/validasi/tolak/{cuti}', [CutiController::class, 'tolak']);   
     Route::get('/pegawai/ajukan/download/pdf/{cuti}', [CutiController::class, 'pdf']);   
 
+});
+
+Route::group(['middleware' => ['auth', 'role:pegawai|superadmin']], function () {
+    Route::get('/pegawai/ajukan/download/pdf/{cuti}', [CutiController::class, 'pdf']);   
 });
