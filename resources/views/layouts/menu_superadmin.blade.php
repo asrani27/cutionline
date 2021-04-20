@@ -65,6 +65,14 @@
         </p>
     </a>
     </li>
+    <li class="nav-item">
+    <a href="/superadmin/ttd" class="nav-link {{ Request::is('superadmin/ttd') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-edit"></i>
+        <p>
+            TTD 
+        </p>
+    </a>
+    </li>
     {{-- <li class="nav-item">
     <a href="/superadmin/setting/kategori/upload" class="nav-link {{ Request::is('superadmin/setting/kategori/upload') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file"></i>

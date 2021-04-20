@@ -19,11 +19,37 @@ class CutiController extends Controller
         return view('pegawai.cuti.ajukan',compact('pegawai','jeniscuti'));
     }
 
+    public function edit($id)
+    {
+        $pegawai    = Auth::user()->pegawai;
+        $data       = Cuti::find($id);
+        $jeniscuti  = Jenis_cuti::get();
+        return view('pegawai.cuti.edit',compact('data','jeniscuti','pegawai'));
+    }
+
+    public function update(Request $req, $id)
+    {
+        $attr = $req->all();
+        if($req->dari == null){
+            $attr['dari'] = null;
+            $attr['nik_p'] = null;
+            $attr['nama_p'] = null;
+            $attr['telp_p'] = null;
+        }else{
+            $attr['dari'] = $req->dari;
+            $attr['nik_p'] = $req->nik_p;
+            $attr['nama_p'] = $req->nama_p;
+            $attr['telp_p'] = $req->telp_p;
+        }
+        Cuti::find($id)->update($attr);
+        toastr()->info('Cuti Berhasil Di Update');
+        return redirect('/pegawai/home');
+    }
+
     public function store(Request $req)
     {
-        
-        $mulai = Carbon::parse($req->mulai);
-        $sampai = Carbon::parse($req->sampai);
+        $mulai   = Carbon::parse($req->mulai);
+        $sampai  = Carbon::parse($req->sampai);
         $pegawai = Auth::user()->pegawai;
         $attr = $req->all();
         $attr['lama'] = $mulai->diffInDays($sampai)+1;

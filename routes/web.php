@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TtdController;
 use App\Http\Controllers\CutiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\JabatanController;
@@ -91,6 +92,11 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/superadmin/manajemen/struktural/edit/{id}', [ManajemenController::class, 'update']);
     Route::get('/superadmin/manajemen/struktural/delete/{id}', [ManajemenController::class, 'delete']);
 
+    Route::get('/superadmin/ttd', [TtdController::class, 'index']);
+    Route::get('/superadmin/ttd/upload/{id}', [TtdController::class, 'upload']);
+    Route::post('/superadmin/ttd/upload/{id}', [TtdController::class, 'update']);
+    
+
     Route::get('/superadmin/datacuti', [SuperadminController::class, 'datacuti']);
 
 });
@@ -105,6 +111,8 @@ Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/ajukan/cuti', [CutiController::class, 'ajukan']);   
     Route::post('/pegawai/ajukan/cuti', [CutiController::class, 'store']);  
     Route::get('/pegawai/ajukan/delete/{cuti}', [CutiController::class, 'destroy']);  
+    Route::get('/pegawai/ajukan/edit/{cuti}', [CutiController::class, 'edit']);  
+    Route::post('/pegawai/ajukan/edit/{cuti}', [CutiController::class, 'update']);  
     Route::get('/pegawai/riwayat/cuti', [PegawaiController::class, 'riwayatCuti']); 
 
     Route::get('/pegawai/ajukan/validasi/setujui/{cuti}', [CutiController::class, 'setujui']);

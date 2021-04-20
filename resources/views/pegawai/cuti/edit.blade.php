@@ -17,11 +17,11 @@
             <div class="col-lg-12 col-12">             
                 <div class="card card-info">
                     <div class="card-header">
-                    <h3 class="card-title"><i class="fas fa-th"></i> Ajukan Cuti</h3>
+                    <h3 class="card-title"><i class="fas fa-th"></i> Edit Ajukan Cuti</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="form-horizontal" method="POST" action="/pegawai/ajukan/cuti">
+                    <form class="form-horizontal" method="POST" action="/pegawai/ajukan/edit/{{$data->id}}">
                         @csrf
                     <div class="card-body">
                         <div class="form-group row">
@@ -42,13 +42,13 @@
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Tgl Mulai Cuti</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" name="mulai" required>
+                            <input type="date" class="form-control" name="mulai" value="{{$data->mulai}}" required>
                         </div>
                         </div>
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Tgl Berakhir Cuti</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" name="sampai" required>
+                            <input type="date" class="form-control" name="sampai" value="{{$data->sampai}}" required>
                         </div>
                         </div>
                         <div class="form-group row">
@@ -57,7 +57,7 @@
                             <select class="form-control" name="jenis_cuti_id" required>
                             <option value="">-pilih-</option>
                             @foreach ($jeniscuti as $item)
-                                <option value="{{$item->id}}">{{$item->nama}}</option>
+                                <option value="{{$item->id}}" {{$data->jenis_cuti_id == $item->id ? 'selected':''}}>{{$item->nama}}</option>
                             @endforeach
                             </select>
                         </div>
@@ -65,19 +65,20 @@
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Alasan Cuti</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" name="alasan" required></textarea>
+                            <textarea class="form-control" rows="3" name="alasan" required>{{$data->alasan}}</textarea>
                         </div>
                         </div>
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Alamat Selama Cuti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="alamat">
+                            <input type="text" class="form-control" name="alamat" value="{{$data->alamat}}">
                         </div>
                         </div>
+
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Telp</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="telp" required>
+                            <input type="text" class="form-control" name="telp" required value="{{$data->telp}}">
                         </div>
                         </div>
                         
@@ -93,8 +94,8 @@
                         <div class="col-sm-10">
                             <select name="dari" class="form-control">
                                 <option value="">-pilih-</option>
-                                <option value="1">Dari Dalam Rumah Sakit</option>
-                                <option value="2">Dari Luar Rumah Sakit</option>
+                                <option value="1" {{$data->dari == '1' ? 'selected':''}}>Dari Dalam Rumah Sakit</option>
+                                <option value="2" {{$data->dari == '2' ? 'selected':''}}>Dari Luar Rumah Sakit</option>
                             </select>
                         </div>
                         </div>
@@ -102,21 +103,21 @@
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">NIK Pengganti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nik_p" required>
+                            <input type="text" class="form-control" name="nik_p" value="{{$data->nik_p}}" required>
                         </div>
                         </div>
                         
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Nama Pengganti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama_p" required>
+                            <input type="text" class="form-control" name="nama_p" value="{{$data->nama_p}}" required>
                         </div>
                         </div>
                         
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Telp Pengganti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="telp_p" required>
+                            <input type="text" class="form-control" name="telp_p" value="{{$data->telp_p}}" required>
                         </div>
                         </div>
                     </div>

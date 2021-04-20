@@ -14,6 +14,7 @@ use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use App\Imports\PegawaiImport;
 use App\Models\KategoriUpload;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
@@ -276,15 +277,22 @@ class SuperadminController extends Controller
 
     public function deletePegawai($id)
     {
+        DB::beginTransaction();
         try{
+            $cuti =Cuti::where('pegawai_id', $id)->get();
+            foreach($cuti as $item)
+            {
+                $item->delete();
+            }
             Pegawai::find($id)->user->delete();
             Pegawai::find($id)->delete();
-            toastr()->success('pegawai Berhasil Di Hapus');
-            return back();
+            DB::commit();
+            toastr()->info('pegawai Berhasil Di Hapus');
         }catch(\Exception $e){
-            toastr()->error('pegawai Gagal Di Hapus Karena Terkait Dengan Data Lain');
-            return back();
+            DB::rollBack();
+            toastr()->error('Tidak Bisa Dihapus karena ada data cuti');
         }
+        return back();
     }
     
     public function kategori()

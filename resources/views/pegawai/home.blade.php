@@ -196,6 +196,7 @@
                   <th>Tgl Sampai</th>
                   <th>Lama</th>
                   <th>Status</th>
+                  <th>Pengganti</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -205,7 +206,7 @@
               <tbody>
                 @foreach ($cuti as $item)
                     
-                <tr>
+                <tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
                   <td>{{$no++}}</td>
                   <td>{{$item->pegawai->nip}}</td>
                   <td>{{$item->pegawai->nama}}</td>
@@ -223,6 +224,22 @@
                     @else
                         <span class="badge badge-danger">Ditolak</span>
                     @endif
+                  </td>
+                  <td>
+                    @if ($item->dari == NULL)
+                        -
+                    @elseif ($item->dari == 1)
+                      Dari : Dalam RS<br/>
+                      NIK/NIP : {{$item->nik_p}}<br/>
+                      Nama : {{$item->nama_p}}<br/>
+                      Telp : {{$item->telp_p}}<br/>
+                    @else
+                      Dari : Luar RS<br/>
+                      NIK/NIP : {{$item->nik_p}}<br/>
+                      Nama : {{$item->nama_p}}<br/>
+                      Telp : {{$item->telp_p}}<br/>
+                    @endif
+                    
                   </td>
                   <td>
                     
