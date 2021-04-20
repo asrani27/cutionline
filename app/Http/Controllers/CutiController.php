@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Cuti;
+use App\Models\Jabatan;
+use App\Models\Kadinkes;
 use App\Models\Jenis_cuti;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -104,7 +106,10 @@ class CutiController extends Controller
         
         $customPaper = array(0,0,610,1160);
         
-        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti','qrcode'))->setPaper($customPaper);
+        $kadinkes = Kadinkes::first();
+        $direktur = Jabatan::where('jenis','manajemen')->where('jabatan_id', null)->first();
+        
+        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti','qrcode','kadinkes','direktur'))->setPaper($customPaper);
         return $pdf->download('pdf.pdf');
     }
 }

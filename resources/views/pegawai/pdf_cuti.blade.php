@@ -82,22 +82,22 @@
 		<span class="auto-style2">FORMULIR PERMINTAAN DAN PEMBERIAN CUTI<br />
 		</div>
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" colspan="4">I. DATA PEGAWAI</td>
 			</tr>
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 125px">Nama</td>
 				<td class="auto-style1" style="width: 182px">{{$cuti->pegawai->nama}}</td>
 				<td class="auto-style6" style="width: 101px">NIP</td>
 				<td class="auto-style1" style="width: 240px">{{$cuti->pegawai->nip}}</td>
 			</tr>
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 125px">Jabatan</td>
 				<td class="auto-style1" style="width: 182px">{{$cuti->jabatan->nama}}</td>
 				<td class="auto-style6" style="width: 101px">Masa Kerja</td>
 				<td class="auto-style1" style="width: 240px">&nbsp;</td>
 			</tr>
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 125px">Unit Kerja</td>
 				<td class="auto-style1" style="width: 182px">{{$cuti->pegawai->unit_kerja}}</td>
 				<td class="auto-style1" style="width: 101px">&nbsp;</td>
@@ -106,23 +106,23 @@
 		</table>
 		<br />
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" colspan="4">II. JENIS CUTI YANG DIAMBIL 
 				**</td>
 			</tr>
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 148px">1. Cuti Tahunan</td>
 				<td class="auto-style1" style="width: 182px;text-align:center;">{{$cuti->jenis_cuti_id == 1 ? 'V':'-'}}</td>
 				<td class="auto-style6" style="width: 163px">2. Cuti Besar</td>
 				<td class="auto-style1" style="width: 155px;text-align:center;">{{$cuti->jenis_cuti_id == 2 ? 'V':'-'}}</td>
 			</tr>
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 148px">3. Cuti Sakit</td>
 				<td class="auto-style1" style="width: 182px;text-align:center;">{{$cuti->jenis_cuti_id == 3 ? 'V':'-'}}</td>
 				<td class="auto-style6" style="width: 163px">4. Cuti Melahirkan</td>
 				<td class="auto-style1" style="width: 155px;text-align:center;">{{$cuti->jenis_cuti_id == 4 ? 'V':'-'}}</td>
 			</tr>
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 148px">5. Cuti Karena 
 				Alasan Penting</td>
 				<td class="auto-style1" style="width: 182px;text-align:center;">{{$cuti->jenis_cuti_id == 5 ? 'V':'-'}}</td>
@@ -135,7 +135,7 @@
 		<br />
 
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 		<span class="auto-style2">
 				<td class="auto-style6">III. ALASAN CUTI</td>
 				</span>
@@ -151,12 +151,12 @@
 
 		<br />
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 		<span class="auto-style2">
 				<td class="auto-style6" colspan="4">IV. LAMANYA CUTI</td>
 				</span>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 148px">Selama&nbsp;</td>
 				<td class="auto-style1" style="width: 182px">{{$cuti->lama}} Hari</td>
 				<td class="auto-style6" style="width: 163px">mulai tanggal : {{\Carbon\Carbon::parse($cuti->mulai)->format('d/m/Y')}}</td>
@@ -166,29 +166,29 @@
 
 		<br />
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" colspan="5">V. CATATAN CUTI ***</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" colspan="3">1. CUTI TAHUNAN</td>
 				<td class="auto-style6" style="width: 338px">2. CUTI BESAR</td>
 				<td class="auto-style1" style="width: 110px">&nbsp;</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 56px">Tahun</td>
 				<td class="auto-style1" style="width: 73px">Sisa</td>
 				<td class="auto-style1" style="width: 26px">Keterangan</td>
 				<td class="auto-style6" style="width: 338px">3. CUTI SAKIT</td>
 				<td class="auto-style1" style="width: 110px">&nbsp;</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 56px">N-2</td>
 				<td class="auto-style1" style="width: 73px">&nbsp;</td>
 				<td class="auto-style1" style="width: 26px">&nbsp;</td>
 				<td class="auto-style6" style="width: 338px">4. CUTI MELAHIRKAN</td>
 				<td class="auto-style1" style="width: 110px">&nbsp;</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 56px">N-1</td>
 				<td class="auto-style1" style="width: 73px">&nbsp;</td>
 				<td class="auto-style1" style="width: 26px">&nbsp;</td>
@@ -196,7 +196,7 @@
 				ALASAN PENTING</td>
 				<td class="auto-style1" style="width: 110px">&nbsp;</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 56px">N</td>
 				<td class="auto-style1" style="width: 73px">&nbsp;</td>
 				<td class="auto-style1" style="width: 26px">&nbsp;</td>
@@ -208,16 +208,16 @@
 		
 		<br />
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" colspan="3">VI. ALAMAT SELAMA 
 				MENJALANKAN CUTI</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" rowspan="2" style="width: 335px">&nbsp;</td>
 				<td class="auto-style6" style="width: 163px">TEL</td>
 				<td class="auto-style1" style="width: 155px">&nbsp;</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="height: 46px;" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 				Hormat Saya,<br />
 				<br />
@@ -229,17 +229,17 @@
 		</table>	
 		<br />
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
-			<tr>
+			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" colspan="4">VII. PERTIMBANGAN ATASAN 
 				LANGSUNG **</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style8" style="width: 148px">DISETUJUI&nbsp;</td>
 				<td class="auto-style7" style="width: 182px">PERUBAHAN****</td>
 				<td class="auto-style8" style="width: 163px">DITANGGUHKAN****</td>
 				<td class="auto-style7" style="width: 155px">TIDAK DISETUJUI****</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style8" style="width: 148px; text-align:center">{{$cuti->status == 1 ? 'V':''}}</td>
 				<td class="auto-style7" style="width: 182px">&nbsp;</td>
 				<td class="auto-style8" style="width: 163px">&nbsp;</td>
@@ -247,13 +247,32 @@
 			</tr>
 		</table>		
 
-		<br />		
+		<br />	
+		
+		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
+				<td class="auto-style8" style="width: 138px">Ka. Ruangan&nbsp;</td>
+				<td class="auto-style7" style="width: 172px">Ka. Instalasi</td>
+				<td class="auto-style8" style="width: 153px">Kasie</td>
+				<td class="auto-style7" style="width: 185px"></td>
+			</tr>
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
+				<td class="auto-style8" style="width: 100px;"></td>
+				<td class="auto-style7" style="width: 150px"></td>
+				<td class="auto-style8" style="width: 150px"></td>
+				<td class="auto-style7" style="width: 208px" align="center">
+				{{$direktur->nama}}<br/>
+				v<br/>
+				{{$direktur->pegawai->first()->nama}}<br/>NIP.{{$direktur->pegawai->first()->nip}}</td>
+			</tr>
+		</table>	
+		<br/>
 		<table cellpadding="2" cellspacing="0" class="auto-style5" style="width: 47%">
 			<tr>
-				<td class="auto-style6" colspan="4">VIII. KEPUTUSAN PEJABATAN 
+				<td class="auto-style6" colspan="4" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">VIII. KEPUTUSAN PEJABATAN 
 				YANG BERWENANG MEMBERIKAN CUTI **</td>
 			</tr>
-			<tr class="auto-style2">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style8" style="width: 148px">DISETUJUI&nbsp;</td>
 				<td class="auto-style7" style="width: 182px">PERUBAHAN****</td>
 				<td class="auto-style8" style="width: 163px">DITANGGUHKAN****</td>
@@ -267,36 +286,27 @@
 			</tr>
 		</table>		
 
-		<div class="auto-style9">
-			<br />
-		<table cellpadding="2" cellspacing="0" class="auto-style11" style="width: 47%">
-			<tr>
-		<span class="auto-style2">
-				<td style="width: 583px">
-		<span class="auto-style2">Catatan :<br />
-&nbsp;&nbsp;&nbsp; * Coret Yang Tidak Perlu<br />
-&nbsp;&nbsp;&nbsp; ** Pilih Salah Satu Dengan Memberi tanda centang <br />
-&nbsp;&nbsp;&nbsp; *** Di isi oleh pejabatn yang menangani bidang kepegawaian 
-			sebelum PNS mengajukan cuti<br />
-&nbsp;&nbsp;&nbsp; **** diberi tanda centang dan alasannya<br />
-&nbsp;&nbsp;&nbsp; N&nbsp;&nbsp;&nbsp;&nbsp; = cuti tahun berjalan<br />
-&nbsp;&nbsp;&nbsp; N-1 = Sisa Cuti 1 tahun sebelumnya<br />
-&nbsp;&nbsp;&nbsp; N-2 = Sisa cuti 2 tahun sebelumnya &nbsp;&nbsp;&nbsp;</td>
-				</span>
-		<span class="auto-style2"></span>
-		<span class="auto-style2">
-				<td>
-		<span class="auto-style2">	
-		<img src="data:image/png;base64, {!! $qrcode !!}" width="80" height="80"></td>
-				</span>
-		<span class="auto-style2"></span>
+		<table cellpadding="2" border=0 cellspacing="0" style="width: 47%">
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
+				<td style="width: 148px"></td>
+				<td style="width: 182px"></td>
+				<td style="width: 163px"></td>
+				<td style="width: 155px"></td>
 			</tr>
-		</table>		
-
-			<br />
-			&nbsp;&nbsp;&nbsp; &nbsp;	
-		<br />	
-		&nbsp;</div>
+			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
+				<td style="width: 148px">&nbsp;</td>
+				<td style="width: 182px">&nbsp;</td>
+				<td style="width: 163px">&nbsp;</td>
+				<td style="width: 155px" align="center">Kepala Dinas Kesehatan
+				<br/><br/><br/>
+				<img src="data:image/png;base64, {!! $qrcode !!}" width="80" height="80">
+				<br/>
+				{{$kadinkes->nama}}<br/>
+				NIP.{{$kadinkes->nip}}
+				</td>
+			</tr>
+		</table>	
+		
 	</div>
 </div>
 
