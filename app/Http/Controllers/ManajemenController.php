@@ -57,4 +57,24 @@ class ManajemenController extends Controller
             return back();
         }
     }
+
+    public function view($id)
+    {
+        Jabatan::find($id)->update([
+            'view' => 1,
+        ]);
+        
+        toastr()->info('Jabatan ini bisa melihat semua cuti pegawai di RS');
+        return back();
+    }
+
+    public function notview($id)
+    {
+        Jabatan::find($id)->update([
+            'view' => NULL,
+        ]);
+        
+        toastr()->info('Jabatan ini tidak bisa melihat semua cuti pegawai di RS');
+        return back();
+    }
 }

@@ -41,6 +41,7 @@
                         <th>#</th>
                         <th>Nama Jabatan</th>
                         <th>Atasan</th>
+                        <th>Lihat Semua Cuti</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -53,6 +54,13 @@
                             <td>{{$key+ $data->firstItem()}}</td>
                             <td>{{$item->nama}}</td>
                             <td>{{$item->atasan == null ? '-': $item->atasan->nama}}</td>
+                            <th>
+                              @if ($item->view == null)
+                              <a href="/superadmin/manajemen/struktural/edit/lihat/{{$item->id}}" onclick="return confirm('Yakin ingin di buka?');"><i class="far fa-times-circle"></i></a>
+                              @else
+                              <a href="/superadmin/manajemen/struktural/edit/tidaklihat/{{$item->id}}" onclick="return confirm('Yakin ingin di tutup?');"><i class="far fa-check-circle"></i></a>
+                              @endif
+                            </th>
                             <td>
                                 
                                 <a href="/superadmin/manajemen/struktural/edit/{{$item->id}}" class="btn btn-xs btn-warning" data-toggle="tooltip" title='Edit Jabatan'><i class="fas fa-edit"></i></a>

@@ -21,6 +21,7 @@ class PegawaiController extends Controller
     public function home()
     {
         $cuti = Cuti::with('pegawai')->where('pegawai_id', $this->user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
+        
         if($this->user()->pegawai->karu != null){
             $jabatan_id = $this->user()->pegawai->karu->jabatan->pluck('id');
             $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)

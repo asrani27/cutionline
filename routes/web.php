@@ -91,6 +91,8 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/manajemen/struktural/edit/{id}', [ManajemenController::class, 'edit']);
     Route::post('/superadmin/manajemen/struktural/edit/{id}', [ManajemenController::class, 'update']);
     Route::get('/superadmin/manajemen/struktural/delete/{id}', [ManajemenController::class, 'delete']);
+    Route::get('/superadmin/manajemen/struktural/edit/lihat/{id}', [ManajemenController::class, 'view']);
+    Route::get('/superadmin/manajemen/struktural/edit/tidaklihat/{id}', [ManajemenController::class, 'notview']);
 
     Route::get('/superadmin/ttd', [TtdController::class, 'index']);
     Route::get('/superadmin/ttd/upload/{id}', [TtdController::class, 'upload']);
