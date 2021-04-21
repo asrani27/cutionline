@@ -134,7 +134,7 @@ class CutiController extends Controller
             $atasan = 'Kepala Dinas Kesehatan';
         }else{
             $atasan = $this->user()->pegawai->jabatan->atasan->nama;
-            $id_pegawai_atasan = $$this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
+            $id_pegawai_atasan = $this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
             $proses_kadis = null;
         }
         
