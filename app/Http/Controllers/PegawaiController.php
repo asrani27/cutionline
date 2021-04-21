@@ -23,6 +23,7 @@ class PegawaiController extends Controller
         $cuti = Cuti::with('pegawai')->where('pegawai_id', $this->user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
 
         $daftarCuti = Cuti::where('proses_atasan', $this->user()->pegawai->id)->paginate(10);
+        
         //Check Jabatan
         // if($this->user()->pegawai->jabatan != null){
         //     if($this->user()->pegawai->jabatan->view == 1){

@@ -28,6 +28,11 @@ Route::get('/logout', function(){
 
 Route::group(['middleware' => ['auth', 'role:kadis']], function () {
     Route::get('/kadis/home', [KadisController::class, 'home']);
+    Route::get('/kadis/profil', [KadisController::class, 'profil']);
+    Route::post('/kadis/profil', [KadisController::class, 'changeKadis']);
+    Route::get('/kadis/validasi/setujui/{cuti}', [KadisController::class, 'setujui']);
+    Route::get('/kadis/validasi/tolak/{cuti}', [KadisController::class, 'tolak']);   
+    Route::get('/kadis/download/pdf/{cuti}', [KadisController::class, 'pdf']);   
 });
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/home', [SuperadminController::class, 'home']);

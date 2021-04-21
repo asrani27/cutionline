@@ -93,7 +93,7 @@
 			</tr>
 			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 125px">Jabatan</td>
-				<td class="auto-style1" style="width: 182px">{{$cuti->jabatan->nama}}</td>
+				<td class="auto-style1" style="width: 182px">{{$cuti->jabatan == null ? '-': $cuti->jabatan->nama}}</td>
 				<td class="auto-style6" style="width: 101px">Masa Kerja</td>
 				<td class="auto-style1" style="width: 240px">&nbsp;</td>
 			</tr>
@@ -294,10 +294,10 @@
 				<td style="width: 155px"></td>
 			</tr>
 			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
-				<td style="width: 148px">&nbsp;</td>
+				<td style="width: 108px">&nbsp;</td>
 				<td style="width: 182px">&nbsp;</td>
 				<td style="width: 163px">&nbsp;</td>
-				<td style="width: 155px" align="center">Kepala Dinas Kesehatan
+				<td style="width: 195px" align="center">Kepala Dinas Kesehatan
 				<br/><br/><br/>
 				<img src="data:image/png;base64, {!! $qrcode !!}" width="80" height="80">
 				<br/>

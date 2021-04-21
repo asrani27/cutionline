@@ -17,7 +17,7 @@
   
   @toastr_css
 </head>
-<body class="hold-transition login-page" style="background:url('theme/bg.jpg');background-repeat: no-repeat;background-size: cover;">
+<body class="hold-transition login-page" style="background:url('theme/bg2.jpg');background-repeat: no-repeat;background-size: cover;">
 <div class="login-box">
   <!-- /.login-logo -->
   <div class="card">
