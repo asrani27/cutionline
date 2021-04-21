@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
 use App\Models\Pegawai;
 use App\Models\Instalasi;
 use Illuminate\Http\Request;
@@ -63,6 +64,21 @@ class InstalasiController extends Controller
         return redirect('/superadmin/manajemen/instalasi');
     }
     
+    public function atasan(Instalasi $instalasi)
+    {
+        $atasan = Jabatan::where('jenis', 'manajemen')->get();
+        $data = $instalasi;
+        return view('superadmin.instalasi.atasan',compact('data','atasan'));
+    }
+
+    public function updateAtasan(Request $req, Instalasi $instalasi)
+    {
+        $instalasi->update([
+            'atasan' => $req->jabatan_id,
+        ]);
+        toastr()->info('Atasan Instalasi Berhasil Di Update');
+        return redirect('/superadmin/manajemen/instalasi');
+    }
     public function destroy(Instalasi $instalasi)
     {
         try{

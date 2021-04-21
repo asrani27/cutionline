@@ -54,7 +54,10 @@
                           <tr>
                             <td>{{$key+ $data->firstItem()}}</td>
                             <td>{{$item->nama}} <br/>
-                              Ka. Instalasi : {{$item->kainstalasi == null ? '-': $item->kainstalasi->nama}}
+                              Ka. Instalasi : {{$item->kainstalasi == null ? '-': $item->kainstalasi->nama}} <br/>
+                              Atasan Langsung : {{$item->atasan == null ? '-': $item->atasanlangsung->nama}}
+                              
+                              <a href="/superadmin/manajemen/instalasi/{{$item->id}}/atasan" class="btn btn-xs" data-toggle="tooltip" title='Atasan Langsung'><i class="fas fa-user"></i></a>
                             </td>
                             <td>
                                 <ul>

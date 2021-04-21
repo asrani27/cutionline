@@ -22,4 +22,9 @@ class Instalasi extends Model
     {
         return $this->hasOne(Pegawai::class, 'id', 'kai');
     }
+
+    public function atasanlangsung()
+    {
+        return $this->belongsTo(Jabatan::class, 'atasan', 'id');
+    }
 }

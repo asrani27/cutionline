@@ -66,9 +66,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>NIP</th>
-                  <th>Nama</th>
-                  <th>Jabatan</th>
+                  <th>NIP/NIK/Nama/Jabatan</th>
                   <th>Tgl Mulai</th>
                   <th>Tgl Sampai</th>
                   <th>Lama</th>
@@ -81,11 +79,12 @@
               @endphp
               <tbody>
                 @foreach ($cuti as $item)
-                <tr>
+                <tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
                   <td>{{$no++}}</td>
-                  <td>{{$item->pegawai->nip}}</td>
-                  <td>{{$item->pegawai->nama}}</td>
-                  <td>{{$item->jabatan->nama}}</td>
+                  <td>{{$item->pegawai->nama}}<br/>
+                    NIP/NIK.{{$item->pegawai->nip}}<br/>
+                    {{$item->jabatan == null ? '': $item->jabatan->nama}}
+                  </td>
                   <td>{{$item->mulai}}</td>
                   <td>{{$item->sampai}}</td>
                   <td>{{$item->lama}} Hari</td>

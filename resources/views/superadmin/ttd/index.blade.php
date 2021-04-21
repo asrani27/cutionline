@@ -67,6 +67,8 @@
                 <th>#</th>
                 <th>NIP</th>
                 <th>Nama</th>
+                <th>Pangkat</th>
+                <th>username</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -79,8 +81,15 @@
                 <td>{{$no++}}</td>
                 <td>{{$item->nip}}</td>
                 <td>{{$item->nama}}</td>
+                <td>{{$item->pangkat}}</td>
+                <td>{{$item->user == null ? '-': $item->user->username}}</td>
               
                 <td>
+                  @if ($item->user == null)
+                    <a href="/superadmin/ttd/kadinkes/{{$item->id}}/createuser" class="btn btn-xs btn-secondary" data-toggle="tooltip" title='Data Kadinkes'><i class="fas fa-key"></i> Buat User</a>
+                  @else
+                    <a href="/superadmin/ttd/kadinkes/{{$item->id}}/resetpass" class="btn btn-xs btn-secondary" data-toggle="tooltip" title='Data Kadinkes'><i class="fas fa-key"></i> Reset Password</a>
+                  @endif
                   <a href="/superadmin/ttd/kadinkes/{{$item->id}}" class="btn btn-xs btn-success" data-toggle="tooltip" title='Data Kadinkes'><i class="fas fa-edit"></i></a>
                 </td>
               </tr>

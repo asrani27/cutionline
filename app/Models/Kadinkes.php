@@ -11,4 +11,9 @@ class Kadinkes extends Model
     protected $table  ='kadinkes';
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

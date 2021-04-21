@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ttd;
+use App\Models\User;
 use App\Models\Kadinkes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -57,5 +58,28 @@ class TtdController extends Controller
         Kadinkes::find($id)->update($req->all());
         toastr()->info('Berhasil Di Update');
         return redirect('/superadmin/ttd');
+    }
+
+    public function createuser($id)
+    {
+        $user['name'] = 'Kadinkes';
+        $user['username'] = 'kadinkes';
+        $user['password'] = bcrypt('cutirs');
+
+        $u = User::create($user);
+        Kadinkes::find($id)->update([
+            'user_id' => $u->id,
+        ]);
+        toastr()->info('username : kadinkes, password : cutirs');
+        return back();
+    }
+
+    public function resetpass($id)
+    {
+        Kadinkes::find($id)->user->update([
+            'password' => bcrypt('cutirs'),
+        ]);
+        toastr()->info('username : kadinkes, password : cutirs');
+        return back();
     }
 }

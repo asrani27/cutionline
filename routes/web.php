@@ -66,6 +66,8 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/manajemen/instalasi/edit/{instalasi}', [InstalasiController::class, 'edit']);
     Route::put('/superadmin/manajemen/instalasi/edit/{instalasi}', [InstalasiController::class, 'update']);
     Route::get('/superadmin/manajemen/instalasi/delete/{instalasi}', [InstalasiController::class, 'destroy']);
+    Route::get('/superadmin/manajemen/instalasi/{instalasi}/atasan', [InstalasiController::class, 'atasan']);
+    Route::post('/superadmin/manajemen/instalasi/{instalasi}/atasan', [InstalasiController::class, 'updateAtasan']);
     
     Route::get('/superadmin/manajemen/instalasi/{instalasi}/ruangan', [RuanganController::class, 'index']);
     Route::get('/superadmin/manajemen/ruangan/kepala', [RuanganController::class, 'karu']);
@@ -100,6 +102,8 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     
     Route::get('/superadmin/ttd/kadinkes/{id}', [TtdController::class, 'editKadinkes']);
     Route::post('/superadmin/ttd/kadinkes/{id}', [TtdController::class, 'updateKadinkes']);
+    Route::get('/superadmin/ttd/kadinkes/{id}/createuser', [TtdController::class, 'createuser']);
+    Route::get('/superadmin/ttd/kadinkes/{id}/resetpass', [TtdController::class, 'resetpass']);
     
 
     Route::get('/superadmin/datacuti', [SuperadminController::class, 'datacuti']);

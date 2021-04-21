@@ -58,7 +58,8 @@
                             <td>{{$item->nip}}
                             </td>
                             <td>{{$item->nama}}</td>
-                            <td>{{$item->jabatan == null ? '' :$item->jabatan->nama}}</td>
+                            <td>{{$item->jabatan == null ? '' :$item->jabatan->nama}}
+                            </td>
                             <td>
                               @if ($item->user_id == null)
                                 <a href="/superadmin/pegawai/createuser/{{$item->id}}" class="btn btn-xs btn-secondary"><i class="fas fa-key"></i> Create User</a>
