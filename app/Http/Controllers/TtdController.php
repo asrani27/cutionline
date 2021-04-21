@@ -72,7 +72,7 @@ class TtdController extends Controller
         Kadinkes::find($id)->update([
             'user_id' => $u->id,
         ]);
-        $u->roles->attach($role);
+        $u->roles()->attach($role);
         toastr()->info('username : kadinkes, password : cutirs');
         return back();
     }
