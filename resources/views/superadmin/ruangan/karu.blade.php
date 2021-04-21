@@ -46,7 +46,7 @@
                         <td>{{$item->nama}}</td>
                         <td>
                             <input type="hidden" name="ruangan_id[]" value="{{$item->id}}">
-                            <select class="form-control" name="pegawai_id[]">
+                            <select class="form-control select2" name="pegawai_id[]">
                                 <option value="">-pilih-</option>
                                 @foreach ($pegawai as $item2)
                                 <option value="{{$item2->id}}" {{$item2->id == $item->karu ? 'selected':''}}>{{$item2->nip}} - {{$item2->nama}}</option>
@@ -74,5 +74,18 @@
 
 @push('js')
 
+
+<script src="/theme/plugins/select2/js/select2.full.min.js"></script>
+<script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+  
+      //Initialize Select2 Elements
+      $('.select2bs4').select2({
+        theme: 'bootstrap4'
+      })
+    })
+</script>
 
 @endpush
