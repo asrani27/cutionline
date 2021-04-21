@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Pegawai::class, 'user_id');
     }
+    
+    public function kadinkes()
+    {
+        return $this->hasOne(Kadinkes::class, 'user_id');
+    }
 }

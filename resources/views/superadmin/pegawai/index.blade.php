@@ -45,6 +45,8 @@
                         <th>NIP/NIK</th>
                         <th>Nama</th>
                         <th>Jabatan</th>
+                        <th>Ruangan</th>
+                        <th>Instalasi</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -60,6 +62,8 @@
                             <td>{{$item->nama}}</td>
                             <td>{{$item->jabatan == null ? '' :$item->jabatan->nama}}
                             </td>
+                            <td>{{($item->jabatan == null ? '' :$item->jabatan->ruangan) == null ? '-' : $item->jabatan->ruangan->nama}}</td>
+                            <td>{{($item->jabatan == null ? '' :$item->jabatan->ruangan) == null ? '-' : $item->jabatan->ruangan->instalasi->nama}}</td>
                             <td>
                               @if ($item->user_id == null)
                                 <a href="/superadmin/pegawai/createuser/{{$item->id}}" class="btn btn-xs btn-secondary"><i class="fas fa-key"></i> Create User</a>

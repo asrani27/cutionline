@@ -14,6 +14,10 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CutiController extends Controller
 {
+    public function user()
+    {
+        return Auth::user();
+    }
     public function ajukan()
     {
         $pegawai = Auth::user()->pegawai;
@@ -53,11 +57,35 @@ class CutiController extends Controller
         $mulai   = Carbon::parse($req->mulai);
         $sampai  = Carbon::parse($req->sampai);
         $pegawai = Auth::user()->pegawai;
+        
         $attr = $req->all();
         $attr['lama'] = $mulai->diffInDays($sampai)+1;
-        $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
-        $attr['instalasi'] = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
-        $attr['ruangan'] =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+        if($pegawai->kai == null){
+            $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
+            $attr['instalasi'] = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+            $attr['ruangan'] =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+            
+            $attr['proses_atasan'] = $pegawai->jabatan->atasan->pegawai->first()->id;
+            $attr['proses_status'] = $pegawai->jabatan->atasan->nama;
+            
+            //$attr['proses_setuju'] = json_encode(collect($proses));
+            
+        }else{
+            if($pegawai->kai->atasanlangsung == null){
+                toastr()->info('Harap isi Atasan Langsung');
+                return back();
+            }else{
+                
+                $attr['jabatan_id'] = null;
+                $attr['instalasi'] = $pegawai->kai->nama;
+                $attr['ruangan'] = '-';
+                $attr['proses_atasan'] = $pegawai->kai->atasanlangsung->pegawai->first()->id;
+                $attr['proses_status'] = $pegawai->kai->atasanlangsung->nama;
+                //$attr['proses_setuju'] = json_encode(collect($proses));
+                
+            }
+        }
+        
         //dd($attr);
         Cuti::create($attr);
         toastr()->info('Cuti Berhasil Di Ajukan, menunggu persetujuan');
@@ -79,10 +107,44 @@ class CutiController extends Controller
     
     public function setujui(Cuti $cuti)
     {
+        $json1 = $cuti->proses_setuju;
+        $json2 = 
+            [
+                'id_pegawai' => $this->user()->pegawai->id,
+                'nama' => $this->user()->pegawai->jabatan->nama,
+                'status' => 'setuju',
+            ];
+        
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+        
+        if($this->user()->pegawai->jabatan->jenis ='manajemen' && $this->user()->pegawai->jabatan->jabatan_id == null){
+            $id_pegawai_atasan = null;
+            $proses_kadis = 'Y';
+            $atasan = 'Kepala Dinas Kesehatan';
+        }else{
+            $atasan = $this->user()->pegawai->jabatan->atasan->nama;
+            $id_pegawai_atasan = $$this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
+            $proses_kadis = null;
+        }
+        
         $cuti->update([
-            'status' => 1,
-            'validator' => Auth::user()->pegawai->id,
+            'proses_setuju' => $json_merge,
+            'proses_status' => $atasan,
+            'proses_atasan' => $id_pegawai_atasan,
+            'proses_kadis' => $proses_kadis,
         ]);
+        
         toastr()->info('Cuti Di Setujui');
         return back();
     }

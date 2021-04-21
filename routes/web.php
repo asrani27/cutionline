@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TtdController;
 use App\Http\Controllers\CutiController;
+use App\Http\Controllers\KadisController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\PegawaiController;
@@ -25,6 +26,9 @@ Route::get('/logout', function(){
     return redirect('/');
 });
 
+Route::group(['middleware' => ['auth', 'role:kadis']], function () {
+    Route::get('/kadis/home', [KadisController::class, 'home']);
+});
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/home', [SuperadminController::class, 'home']);
     Route::get('/superadmin/download', [SuperadminController::class, 'download']);

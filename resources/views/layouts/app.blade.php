@@ -43,6 +43,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         @include('layouts.menu_superadmin')
       @elseif (Auth::user()->hasRole('pegawai'))
         @include('layouts.menu_pegawai')
+      @elseif(Auth::user()->kadinkes != NULL)
+        @include('layouts.menu_kadis')
       @endif
 
 

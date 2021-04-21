@@ -50,10 +50,14 @@
                       <img class="img-circl elevation-2" src="/theme/pemko.png" alt="User Avatar">
                     </div>
                     <!-- /.widget-user-image -->
-                    @if ($atasan == null)
+                    @if ($atasan == null && $manajemen == true)
                         
                       <h3 class="widget-user-username">Atasan : Kepala Dinas Kesehatan</h3>
                       <h5 class="widget-user-desc">Dinas Kesehatan</h5>
+                    @elseif($atasan == null && $manajemen == false)
+
+                      <h3 class="widget-user-username">Atasan : -</h3>
+                      <h5 class="widget-user-desc">-</h5>
                     @else
                         
                       @if ($atasan->jenis == 'manajemen')
@@ -90,26 +94,49 @@
                 </div>
           </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-12">
-              <div class="card">
-                <div class="card-body text-center">
-                  <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/ajukan/cuti">
-                    <i class="fas fa-edit"></i> AJUKAN CUTI
-                  </a>
-                  <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/profil">
-                    <i class="fas fa-user"></i> PROFIL
-                  </a>
-                  <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/riwayat/cuti">
-                    <i class="fas fa-file"></i> RIWAYAT CUTI
-                  </a>
-                  
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-        </div>
         
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-6">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-calendar"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">SISA CUTI</span>
+                <span class="info-box-number">
+                  12 Hari
+                  
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-6">
+            <div class="info-box mb-3">
+              
+                <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/ajukan/cuti">
+                  <i class="fas fa-edit"></i> AJUKAN CUTI
+                </a>
+                
+                <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/profil">
+                  <i class="fas fa-user"></i> PROFIL
+                </a>
+                <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/riwayat/cuti">
+                  <i class="fas fa-file"></i> RIWAYAT CUTI
+                </a>
+
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+          
+          <!-- /.col -->
+        </div>
         @if (count($daftarCuti) != 0)
           <div class="card">
             <div class="card-header">
@@ -130,6 +157,7 @@
                     <th>Lama</th>
                     <th>Status</th>
                     <th>Pengganti</th>
+                    <th>Proses Persetujuan</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -143,6 +171,9 @@
                     <td>{{$no++}}</td>
                     <td>{{$item->pegawai->nama}}<br/>
                       NIP/NIK.{{$item->pegawai->nip}}<br/>
+                      @if ($item->pegawai->kai != null)
+                          Ka. {{$item->instalasi}}
+                      @endif
                       {{$item->jabatan == null ? '': $item->jabatan->nama}}
                     </td>
                     <td>{{$item->instalasi}}</td>
@@ -174,6 +205,13 @@
                         Telp : {{$item->telp_p}}<br/>
                       @endif
                       
+                    </td>
+                    <td>
+                      <ul>
+                      @foreach (collect(json_decode($item->proses_setuju)) as $item2)
+                          <li>{{$item2->nama}} - {{$item2->status}}</li>
+                      @endforeach
+                      </ul>
                     </td>
                     <td>
                       @if ($item->status == NULL)
@@ -215,6 +253,8 @@
                   <th>Lama</th>
                   <th>Status</th>
                   <th>Pengganti</th>
+                  <th>Proses Persetujuan</th>
+                  <th>Status Berada Di</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -228,6 +268,9 @@
                   <td>{{$no++}}</td>
                   <td>{{$item->pegawai->nama}}<br/>
                     NIP/NIK.{{$item->pegawai->nip}}<br/>
+                    @if ($item->pegawai->kai != null)
+                        Ka. {{$item->instalasi}}
+                    @endif
                     {{$item->jabatan == null ? '':$item->jabatan->nama}}</td>
                   <td>{{$item->instalasi}}</td>
                   <td>{{$item->ruangan}}</td>
@@ -258,6 +301,16 @@
                       Telp : {{$item->telp_p}}<br/>
                     @endif
                     
+                  </td>
+                  <td>
+                    <ul>
+                    @foreach (collect(json_decode($item->proses_setuju)) as $item2)
+                        <li>{{$item2->nama}} - {{$item2->status}}</li>
+                    @endforeach
+                    </ul>
+                  </td>
+                  <td>
+                    {{$item->proses_status}}
                   </td>
                   <td>
                     

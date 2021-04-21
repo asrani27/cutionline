@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ttd;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Kadinkes;
 use Illuminate\Http\Request;
@@ -62,6 +63,7 @@ class TtdController extends Controller
 
     public function createuser($id)
     {
+        $role = Role::where('name', 'kadis')->first();
         $user['name'] = 'Kadinkes';
         $user['username'] = 'kadinkes';
         $user['password'] = bcrypt('cutirs');
@@ -70,6 +72,7 @@ class TtdController extends Controller
         Kadinkes::find($id)->update([
             'user_id' => $u->id,
         ]);
+        $u->roles->attach($role);
         toastr()->info('username : kadinkes, password : cutirs');
         return back();
     }

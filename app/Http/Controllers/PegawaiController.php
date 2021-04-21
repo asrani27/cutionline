@@ -21,39 +21,65 @@ class PegawaiController extends Controller
     public function home()
     {
         $cuti = Cuti::with('pegawai')->where('pegawai_id', $this->user()->pegawai->id)->orderBy('id','DESC')->paginate(10);
-        if($this->user()->pegawai->jabatan->view == 1){
-            $daftarCuti = Cuti::orderBy('id', 'DESC')->paginate(10);
-        }else{
-            if($this->user()->pegawai->jabatan->jenis == 'manajemen'){
-                $bawahan_id = $this->user()->pegawai->jabatan->bawahan->pluck('id');
-                $daftarCuti = Cuti::whereIn('jabatan_id', $bawahan_id)->paginate(10);
-                
-            }else{
-                if($this->user()->pegawai->karu != null){
-                    $jabatan_id = $this->user()->pegawai->karu->jabatan->pluck('id');
-                    $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)
-                                        ->where('pegawai_id', '!=',$this->user()->pegawai->id)
-                                        ->orderBy('id','DESC')
-                                        ->paginate(10);
-                    
-                }else{
-                    $daftarCuti = [];
-                }
-            }
-        }
+
+        $daftarCuti = Cuti::where('proses_atasan', $this->user()->pegawai->id)->paginate(10);
+        //Check Jabatan
+        // if($this->user()->pegawai->jabatan != null){
+        //     if($this->user()->pegawai->jabatan->view == 1){
+        //         $daftarCuti = Cuti::orderBy('id', 'DESC')->paginate(10);
+        //     }else{
+        //         if($this->user()->pegawai->jabatan->jenis == 'manajemen'){
+        //             $bawahan_id = $this->user()->pegawai->jabatan->bawahan->pluck('id');
+        //             $daftarCuti = Cuti::whereIn('jabatan_id', $bawahan_id)->paginate(10);
+        //         }else{
+        //             if($this->user()->pegawai->karu != null){
+        //                 $jabatan_id = $this->user()->pegawai->karu->jabatan->pluck('id');
+        //                 $daftarCuti = Cuti::whereIn('jabatan_id', $jabatan_id)
+        //                                     ->where('pegawai_id', '!=',$this->user()->pegawai->id)
+        //                                     ->orderBy('id','DESC')
+        //                                     ->paginate(10);
+                        
+        //             }elseif($this->user()->pegawai->kai != null){
+        //                 $daftarCuti = [];
+        //             }else{
+        //                 $daftarCuti = [];
+        //             }
+        //         }
+        //     }
+        // }else{
+        //     //Jika tidak memiliki jabatan, check jika menjadi Ka. Instalasi
+        //     $kai = $this->user()->pegawai->kai;
+        //     $daftarCuti = [];
+        // }
         
-        $checkAtasan = $this->user()->pegawai->jabatan->atasan;
-        if($checkAtasan == null && $this->user()->pegawai->jabatan->jenis != 'manajemen'){
-            if($this->user()->pegawai->karu != null){
-                $atasan = $this->user()->pegawai->jabatan->ruangan->instalasi->kainstalasi;
+        
+        //Check Jabatan
+        if($this->user()->pegawai->jabatan != null){
+            $checkAtasan = $this->user()->pegawai->jabatan->atasan;
+            if($checkAtasan == null && $this->user()->pegawai->jabatan->jenis != 'manajemen'){
+                if($this->user()->pegawai->karu != null){
+                    $atasan = $this->user()->pegawai->jabatan->ruangan->instalasi->kainstalasi;
+                    $manajemen = false;
+                }elseif($this->user()->pegawai->kai != null){
+                    $atasan = $this->user()->pegawai->jabatan->ruangan->instalasi->atasanlangsung;
+                    $manajemen = false;
+                }else{
+                    $atasan = $this->user()->pegawai->jabatan->ruangan->karuangan;
+                    $manajemen = false;
+                }
             }else{
-                $atasan = $this->user()->pegawai->jabatan->ruangan->karuangan;
+                $atasan = $checkAtasan;
+                $manajemen = true;
             }
         }else{
-            $atasan = $checkAtasan;
+            if($this->user()->pegawai->kai != null){
+                $atasan = $this->user()->pegawai->kai->atasanlangsung;
+                $manajemen = false;
+                $proses_status = 'kai';
+            }
         }
 
-        return view('pegawai.home',compact('cuti','daftarCuti','atasan'));
+        return view('pegawai.home',compact('cuti','daftarCuti','atasan','manajemen'));
     }
     public function profil()
     {
