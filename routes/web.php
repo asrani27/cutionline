@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth', 'role:kadis']], function () {
     Route::get('/kadis/validasi/setujui/{cuti}', [KadisController::class, 'setujui']);
     Route::get('/kadis/validasi/tolak/{cuti}', [KadisController::class, 'tolak']);   
     Route::get('/kadis/download/pdf/{cuti}', [KadisController::class, 'pdf']);   
+    Route::get('/kadis/riwayat/cuti', [KadisController::class, 'cuti']);
 });
 Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::get('/superadmin/home', [SuperadminController::class, 'home']);

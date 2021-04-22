@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cuti;
+use App\Models\Jabatan;
 use App\Models\Pegawai;
+use App\Models\Kadinkes;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KadisController extends Controller
 {
@@ -65,5 +69,28 @@ class KadisController extends Controller
         
         toastr()->info('Cuti Di Setujui');
         return back();
+    }
+
+    public function cuti()
+    {
+        $data = Cuti::where('proses_kadis', 'T')->get();
+        return view('kadis.riwayat',compact('data'));
+    }
+    
+    public function pdf(Cuti $cuti)
+    {
+        $url = env('APP_URL').'/check/verifikasi/digital/cuti/rsud/'.$cuti->id;
+        
+        $qrcode = base64_encode(QrCode::format('svg')->size(600)->errorCorrection('H')->generate($url));
+        
+        $customPaper = array(0,0,610,1160);
+        
+        $kadinkes = Kadinkes::first();
+        $direktur = Jabatan::where('jenis','manajemen')->where('jabatan_id', null)->first();
+        
+        $sisaCuti = 12 - Cuti::where('pegawai_id', $cuti->pegawai_id)->where('jenis_cuti_id', 1)->sum('lama');
+        
+        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti','qrcode','kadinkes','direktur','sisaCuti'))->setPaper($customPaper);
+        return $pdf->download('pdf.pdf');
     }
 }

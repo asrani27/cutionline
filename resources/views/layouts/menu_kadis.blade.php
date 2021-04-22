@@ -21,7 +21,7 @@
         <a href="/kadis/riwayat/cuti" class="nav-link">
             <i class="nav-icon fas fa-file"></i>
             <p>
-            Riwayat Cuti
+            Riwayat Verifikasi Cuti
             </p>
         </a>
         </li>

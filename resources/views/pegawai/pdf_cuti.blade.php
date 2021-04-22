@@ -86,22 +86,22 @@
 				<td class="auto-style6" colspan="4">I. DATA PEGAWAI</td>
 			</tr>
 			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
-				<td class="auto-style6" style="width: 125px">Nama</td>
-				<td class="auto-style1" style="width: 182px">{{$cuti->pegawai->nama}}</td>
+				<td class="auto-style6" style="width: 85px">Nama</td>
+				<td class="auto-style1" style="width: 282px">{{$cuti->pegawai->nama}}</td>
 				<td class="auto-style6" style="width: 101px">NIP</td>
-				<td class="auto-style1" style="width: 240px">{{$cuti->pegawai->nip}}</td>
+				<td class="auto-style1" style="width: 180px">{{$cuti->pegawai->nip}}</td>
 			</tr>
 			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
-				<td class="auto-style6" style="width: 125px">Jabatan</td>
-				<td class="auto-style1" style="width: 182px">{{$cuti->jabatan == null ? '-': $cuti->jabatan->nama}}</td>
+				<td class="auto-style6" style="width: 85px">Jabatan</td>
+				<td class="auto-style1" style="width: 282px">{{$cuti->jabatan == null ? '-': $cuti->jabatan->nama}}</td>
 				<td class="auto-style6" style="width: 101px">Masa Kerja</td>
-				<td class="auto-style1" style="width: 240px">&nbsp;</td>
+				<td class="auto-style1" style="width: 180px">{{$cuti->pegawai->tmt == null ? '' : \Carbon\Carbon::parse($cuti->pegawai->tmt)->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan and %d Hari')}}</td>
 			</tr>
 			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
-				<td class="auto-style6" style="width: 125px">Unit Kerja</td>
-				<td class="auto-style1" style="width: 182px">{{$cuti->pegawai->unit_kerja}}</td>
+				<td class="auto-style6" style="width: 85px">Unit Kerja</td>
+				<td class="auto-style1" style="width: 282px">{{$cuti->pegawai->unit_kerja}}</td>
 				<td class="auto-style1" style="width: 101px">&nbsp;</td>
-				<td class="auto-style1" style="width: 240px">&nbsp;</td>
+				<td class="auto-style1" style="width: 180px">&nbsp;</td>
 			</tr>
 		</table>
 		<br />
@@ -198,7 +198,7 @@
 			</tr>
 			<tr class="auto-style2" style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 56px">N</td>
-				<td class="auto-style1" style="width: 73px">&nbsp;</td>
+				<td class="auto-style1" style="width: 73px">{{$sisaCuti}}</td>
 				<td class="auto-style1" style="width: 26px">&nbsp;</td>
 				<td class="auto-style6" style="width: 338px">6. CUTI DI LUAR 
 				TANGGUNGAN NEGARA</td>

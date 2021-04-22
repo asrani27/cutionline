@@ -101,9 +101,9 @@
               <span class="info-box-icon bg-info elevation-1"><i class="fas fa-calendar"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">SISA CUTI</span>
+                <span class="info-box-text">SISA CUTI TAHUNAN</span>
                 <span class="info-box-number">
-                  12 Hari
+                  {{$sisaCuti}} Hari
                   
                 </span>
               </div>

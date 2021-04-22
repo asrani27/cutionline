@@ -170,8 +170,9 @@ class CutiController extends Controller
         
         $kadinkes = Kadinkes::first();
         $direktur = Jabatan::where('jenis','manajemen')->where('jabatan_id', null)->first();
+        $sisaCuti = 12 - Cuti::where('pegawai_id', $cuti->pegawai_id)->where('jenis_cuti_id', 1)->sum('lama');
         
-        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti','qrcode','kadinkes','direktur'))->setPaper($customPaper);
+        $pdf = PDF::loadView('pegawai.pdf_cuti', compact('cuti','qrcode','kadinkes','direktur','sisaCuti'))->setPaper($customPaper);
         return $pdf->download('pdf.pdf');
     }
 }

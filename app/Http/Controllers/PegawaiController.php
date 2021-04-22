@@ -24,6 +24,8 @@ class PegawaiController extends Controller
 
         $daftarCuti = Cuti::where('proses_atasan', $this->user()->pegawai->id)->paginate(10);
         
+        $sisaCuti = 12 - Cuti::where('pegawai_id', $this->user()->pegawai->id)->where('jenis_cuti_id', 1)->sum('lama');
+        
         //Check Jabatan
         // if($this->user()->pegawai->jabatan != null){
         //     if($this->user()->pegawai->jabatan->view == 1){
@@ -80,7 +82,7 @@ class PegawaiController extends Controller
             }
         }
 
-        return view('pegawai.home',compact('cuti','daftarCuti','atasan','manajemen'));
+        return view('pegawai.home',compact('cuti','daftarCuti','atasan','manajemen','sisaCuti'));
     }
     public function profil()
     {
