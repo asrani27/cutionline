@@ -67,10 +67,14 @@
                 <tr>
                   <th>#</th>
                   <th>NIP/NIK/Nama/Jabatan</th>
+                  <th>Instalasi</th>
+                  <th>Ruangan</th>
                   <th>Tgl Mulai</th>
                   <th>Tgl Sampai</th>
                   <th>Lama</th>
                   <th>Status</th>
+                  <th>Pengganti</th>
+                  <th>Proses Persetujuan</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -85,6 +89,8 @@
                     NIP/NIK.{{$item->pegawai->nip}}<br/>
                     {{$item->jabatan == null ? '': $item->jabatan->nama}}
                   </td>
+                  <td>{{$item->instalasi}}</td>
+                  <td>{{$item->ruangan}}</td>
                   <td>{{$item->mulai}}</td>
                   <td>{{$item->sampai}}</td>
                   <td>{{$item->lama}} Hari</td>
@@ -98,6 +104,29 @@
                     @endif
                   </td>
                   <td>
+                    @if ($item->dari == NULL)
+                        -
+                    @elseif ($item->dari == 1)
+                      Dari : Dalam RS<br/>
+                      NIK/NIP : {{$item->nik_p}}<br/>
+                      Nama : {{$item->nama_p}}<br/>
+                      Telp : {{$item->telp_p}}<br/>
+                    @else
+                      Dari : Luar RS<br/>
+                      NIK/NIP : {{$item->nik_p}}<br/>
+                      Nama : {{$item->nama_p}}<br/>
+                      Telp : {{$item->telp_p}}<br/>
+                    @endif
+                    
+                  </td>
+                  <td>
+                    <ul>
+                    @foreach (collect(json_decode($item->proses_setuju)) as $item2)
+                        <li>{{$item2->nama}} - {{$item2->status}}</li>
+                    @endforeach
+                    </ul>
+                  </td>
+                  <td>
                     <a href="/pegawai/ajukan/download/pdf/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='PDF' target="_blank"><i class="fas fa-file-pdf"></i></a>
                   </td>
                 </tr>
@@ -109,10 +138,10 @@
                 </tr>
               </tfoot>
             </table>
-            {{--   --}}
           </div>
           <!-- /.card-body -->
         </div>
+        {{$cuti->links()}}
     </div>
 </div>
 @endsection

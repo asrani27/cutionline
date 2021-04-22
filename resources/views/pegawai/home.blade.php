@@ -21,7 +21,7 @@
                       -
 
                       @if (Auth::user()->pegawai->karu != null)
-                        Karu {{Auth::user()->pegawai->karu->nama}}
+                        Karu {{Auth::user()->pegawai->karu->nama}}<br/>
                       @endif                        
                       @if (Auth::user()->pegawai->kai != null)
                         Kai {{Auth::user()->pegawai->kai->nama}}
