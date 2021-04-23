@@ -203,7 +203,7 @@ class CutiController extends Controller
             'proses_kadis' => $proses_kadis,
         ]);
         
-        toastr()->info('Cuti Dilanjutkan Ke Atasan');
+        toastr()->info('Cuti Dilanjutkan Ke Atasan : '. $atasan);
         return back();
     }
 
