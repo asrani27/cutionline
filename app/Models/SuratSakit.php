@@ -10,4 +10,5 @@ class SuratSakit extends Model
     use HasFactory;
     protected $table ='surat_sakit';
     protected $guarded = ['id'];
+    
 }
