@@ -18,6 +18,14 @@
     </a>
     </li>
     <li class="nav-item">
+    <a href="/pegawai/surat-sakit" class="nav-link">
+        <i class="nav-icon fas fa-file"></i>
+        <p>
+        Surat Sakit
+        </p>
+    </a>
+    </li>
+    <li class="nav-item">
     <a href="/pegawai/riwayat/cuti" class="nav-link">
         <i class="nav-icon fas fa-file"></i>
         <p>

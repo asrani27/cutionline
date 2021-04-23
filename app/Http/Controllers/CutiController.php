@@ -86,7 +86,7 @@ class CutiController extends Controller
                 toastr()->info('Harap isi Atasan Langsung');
                 return back();
             }else{
-                $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
+                $attr['jabatan_id'] = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
                 $attr['instalasi'] = $pegawai->kai->nama;
                 $attr['ruangan'] = '-';
                 $attr['proses_atasan'] = $pegawai->kai->atasanlangsung->pegawai->first()->id;
@@ -116,13 +116,20 @@ class CutiController extends Controller
     public function setujui(Cuti $cuti)
     {
         $json1 = $cuti->proses_setuju;
-        $json2 = 
-            [
-                'id_pegawai' => $this->user()->pegawai->id,
-                'nama' => $this->user()->pegawai->jabatan->nama,
-                'status' => 'setuju',
-            ];
         
+        if($this->user()->pegawai->kai == null){
+            $nama =$this->user()->pegawai->jabatan->nama;
+        }else{
+            $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
+        }
+        
+        $json2 = 
+        [
+            'id_pegawai' => $this->user()->pegawai->id,
+            'nama' => $nama,
+            'status' => 'setuju',
+        ];            
+
         $json_proses = json_decode($json1, true);
         if($json_proses != null){
             foreach($json_proses as $item)
@@ -136,13 +143,19 @@ class CutiController extends Controller
                 $json_merge = '['.json_encode($json2).']';
         }
         
-        if($this->user()->pegawai->jabatan->jenis ='manajemen' && $this->user()->pegawai->jabatan->jabatan_id == null){
-            $id_pegawai_atasan = null;
-            $proses_kadis = 'Y';
-            $atasan = 'Kepala Dinas Kesehatan';
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->jabatan->jenis ='manajemen' && $this->user()->pegawai->jabatan->jabatan_id == null){
+                $id_pegawai_atasan = null;
+                $proses_kadis = 'Y';
+                $atasan = 'Kepala Dinas Kesehatan';
+            }else{
+                $atasan = $this->user()->pegawai->jabatan->atasan->nama;
+                $id_pegawai_atasan = $this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
+                $proses_kadis = null;
+            }
         }else{
-            $atasan = $this->user()->pegawai->jabatan->atasan->nama;
-            $id_pegawai_atasan = $this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
+            $atasan = $this->user()->pegawai->kai->atasanlangsung->nama;
+            $id_pegawai_atasan = $this->user()->pegawai->kai->atasanlangsung->pegawai->first()->id;
             $proses_kadis = null;
         }
         
@@ -153,7 +166,7 @@ class CutiController extends Controller
             'proses_kadis' => $proses_kadis,
         ]);
         
-        toastr()->info('Cuti Di Setujui');
+        toastr()->info('Cuti Dilanjutkan Ke Atasan');
         return back();
     }
 

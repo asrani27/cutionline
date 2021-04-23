@@ -93,7 +93,13 @@
 			</tr>
 			<tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
 				<td class="auto-style6" style="width: 85px">Jabatan</td>
-				<td class="auto-style1" style="width: 282px">{{$cuti->jabatan == null ? '-': $cuti->jabatan->nama}}</td>
+				<td class="auto-style1" style="width: 282px">
+					@if ($cuti->pegawai->kai != null)
+						Kepala {{$cuti->pegawai->kai->nama}}
+					@else
+						{{$cuti->jabatan == null ? '-': $cuti->jabatan->nama}}
+					@endif
+				</td>
 				<td class="auto-style6" style="width: 101px">Masa Kerja</td>
 				<td class="auto-style1" style="width: 180px">{{$cuti->pegawai->tmt == null ? '' : \Carbon\Carbon::parse($cuti->pegawai->tmt)->diff(\Carbon\Carbon::now())->format('%y Tahun, %m Bulan and %d Hari')}}</td>
 			</tr>

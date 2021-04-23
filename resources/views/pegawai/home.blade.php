@@ -116,7 +116,7 @@
             <div class="info-box mb-3">
               
                 <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/ajukan/cuti">
-                  <i class="fas fa-edit"></i> AJUKAN CUTI
+                  <i class="fas fa-edit"></i> FORM PENGAJUAN CUTI
                 </a>
                 
                 <a class="btn btn-app bg-gradient-info text-white" href="/pegawai/profil">

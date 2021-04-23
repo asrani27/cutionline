@@ -26,6 +26,7 @@
                   <th>Status</th>
                   <th>Pengganti</th>
                   <th>Proses Persetujuan</th>
+                  <th>Proses Berada Di</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -76,6 +77,9 @@
                         <li>{{$item2->nama}} - {{$item2->status}}</li>
                     @endforeach
                     </ul>
+                  </td>
+                  <td>
+                    {{$item->proses_status}}
                   </td>
                   <td>
                     <a href="/pegawai/ajukan/download/pdf/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='PDF' target="_blank"><i class="fas fa-file-pdf"></i></a>
