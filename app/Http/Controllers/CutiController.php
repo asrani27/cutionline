@@ -64,12 +64,28 @@ class CutiController extends Controller
         
         if($pegawai->kai == null){
             if($pegawai->karu == null){
-                $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
-                $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
-                $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
-                
-                $attr['proses_atasan'] = $pegawai->jabatan->atasan->pegawai->first()->id;
-                $attr['proses_status'] = $pegawai->jabatan->atasan->nama;
+                if($pegawai->atasan == null){
+                    //staff di dalam ruangan
+                    $attr['jabatan_id'] = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
+                    $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+                    $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+                    if($pegawai->jabatan->ruangan->karu == null){
+                        toastr()->info('Kepala Ruangan Kosong, Harap Isi Kepala ruangan');
+                        return back();
+                    }
+                    
+                    $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
+                    $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
+                    
+                }else{
+                    $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
+                    $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+                    $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+                    
+                    $attr['proses_atasan'] = $pegawai->jabatan->atasan->pegawai->first()->id;
+                    $attr['proses_status'] = $pegawai->jabatan->atasan->nama;
+                }
+
             }else{
                 $attr['jabatan_id']  = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
                 $attr['instalasi']   = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
@@ -118,7 +134,11 @@ class CutiController extends Controller
         $json1 = $cuti->proses_setuju;
         
         if($this->user()->pegawai->kai == null){
-            $nama =$this->user()->pegawai->jabatan->nama;
+            if($this->user()->pegawai->karu == null){
+                $nama =$this->user()->pegawai->jabatan->nama;
+            }else{
+                $nama ='Kepala '.$this->user()->pegawai->karu->nama;
+            }
         }else{
             $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
         }
@@ -144,19 +164,36 @@ class CutiController extends Controller
         }
         
         if($this->user()->pegawai->kai == null){
-            if($this->user()->pegawai->jabatan->jenis ='manajemen' && $this->user()->pegawai->jabatan->jabatan_id == null){
-                $id_pegawai_atasan = null;
-                $proses_kadis = 'Y';
-                $atasan = 'Kepala Dinas Kesehatan';
+            if($this->user()->pegawai->karu == null){
+                if($this->user()->pegawai->jabatan->jenis ='manajemen' && $this->user()->pegawai->jabatan->jabatan_id == null){
+                    $id_pegawai_atasan = null;
+                    $proses_kadis = 'Y';
+                    $atasan = 'Kepala Dinas Kesehatan';
+                }else{
+                    $atasan = $this->user()->pegawai->jabatan->atasan->nama;
+                    $id_pegawai_atasan = $this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
+                    $proses_kadis = null;
+                }
             }else{
-                $atasan = $this->user()->pegawai->jabatan->atasan->nama;
-                $id_pegawai_atasan = $this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
-                $proses_kadis = null;
+                //Jika Karu Disini
+                if($this->user()->pegawai->karu->instalasi->kai == null){
+                    toastr()->info('Kepala Instalasi Kosong, Harap Isi Kepala Instalasi');
+                    return back();
+                }else{
+                    $atasan = 'Kepala '.$this->user()->pegawai->karu->instalasi->nama;
+                    $id_pegawai_atasan = $this->user()->pegawai->karu->instalasi->kai;
+                    $proses_kadis = null;
+                }
             }
         }else{
-            $atasan = $this->user()->pegawai->kai->atasanlangsung->nama;
-            $id_pegawai_atasan = $this->user()->pegawai->kai->atasanlangsung->pegawai->first()->id;
-            $proses_kadis = null;
+            if($this->user()->pegawai->kai->atasanlangsung == null){
+                toastr()->info('Atasan Kepala Instalasi kosong, harap isi terlebih dahulu Atasan Kepala Instalasi yaitu Kepala Seksi');
+                return back();
+            }else{
+                $atasan = $this->user()->pegawai->kai->atasanlangsung->nama;
+                $id_pegawai_atasan = $this->user()->pegawai->kai->atasanlangsung->pegawai->first()->id;
+                $proses_kadis = null;
+            }
         }
         
         $cuti->update([
