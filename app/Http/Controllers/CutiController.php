@@ -70,12 +70,13 @@ class CutiController extends Controller
                     $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
                     $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
                     if($pegawai->jabatan->ruangan->karu == null){
-                        toastr()->info('Kepala Ruangan Kosong, Harap Isi Kepala ruangan');
-                        return back();
+                        $attr['proses_atasan'] = $pegawai->jabatan->ruangan->instalasi->kai;
+                        $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->instalasi->nama;
+                    }else{
+                        
+                        $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
+                        $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
                     }
-                    
-                    $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
-                    $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
                     
                 }else{
                     $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
@@ -110,9 +111,9 @@ class CutiController extends Controller
             }
         }
         
-        //dd($attr);
+        $atasan = $attr['proses_status'];
         Cuti::create($attr);
-        toastr()->info('Cuti Berhasil Di Ajukan, menunggu persetujuan');
+        toastr()->info('Cuti Berhasil Di Ajukan, di kirim ke '. $atasan);
         return redirect('/pegawai/home');
     }
 
