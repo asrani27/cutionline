@@ -12,6 +12,7 @@ use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\InstalasiController;
 use App\Http\Controllers\ManajemenController;
 use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\SuratSakitController;
 
 Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
@@ -137,6 +138,11 @@ Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/ajukan/validasi/setujui/{cuti}', [CutiController::class, 'setujui']);
     Route::get('/pegawai/ajukan/validasi/tolak/{cuti}', [CutiController::class, 'tolak']);   
     Route::get('/pegawai/ajukan/download/pdf/{cuti}', [CutiController::class, 'pdf']);   
+    
+    Route::get('/pegawai/surat-sakit', [SuratSakitController::class, 'index']);  
+    Route::get('/pegawai/surat-sakit/add', [SuratSakitController::class, 'add']);  
+    Route::post('/pegawai/surat-sakit/add', [SuratSakitController::class, 'store']);  
+    Route::get('/pegawai/surat-sakit/delete/{id}', [SuratSakitController::class, 'delete']);  
 
 });
 
