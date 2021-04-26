@@ -61,21 +61,31 @@ class CutiController extends Controller
         $attr = $req->all();
         $attr['lama'] = $mulai->diffInDays($sampai)+1;
         
-        
         if($pegawai->kai == null){
             if($pegawai->karu == null){
                 if($pegawai->atasan == null){
-                    //staff di dalam ruangan
-                    $attr['jabatan_id'] = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
-                    $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
-                    $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
-                    if($pegawai->jabatan->ruangan->karu == null){
-                        $attr['proses_atasan'] = $pegawai->jabatan->ruangan->instalasi->kai;
-                        $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->instalasi->nama;
-                    }else{
+                    if($pegawai->jabatan->jenis == 'manajemen'){
                         
-                        $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
-                        $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
+                        $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
+                        $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+                        $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+                        
+                        $attr['proses_atasan'] = $pegawai->jabatan->atasan->pegawai->first()->id;
+                        $attr['proses_status'] = $pegawai->jabatan->atasan->nama;
+                        
+                    }else{
+                        //staff di dalam ruangan
+                        $attr['jabatan_id'] = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
+                        $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+                        $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+                        if($pegawai->jabatan->ruangan->karu == null){
+                            $attr['proses_atasan'] = $pegawai->jabatan->ruangan->instalasi->kai;
+                            $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->instalasi->nama;
+                        }else{
+                            
+                            $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
+                            $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
+                        }
                     }
                     
                 }else{
