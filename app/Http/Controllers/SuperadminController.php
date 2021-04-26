@@ -352,4 +352,17 @@ class SuperadminController extends Controller
         $name = 'DokumenPNS'.date('-d-m-Y-h-i-s');
         return Storage::download('/public/download.zip', $name);
     }
+
+    public function datacutisearch()
+    {
+
+        $mulai = request()->get('mulai');
+        $sampai = request()->get('sampai');
+        request()->flash();
+        
+        $cuti = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->paginate(10);
+        
+        return view('superadmin.cuti',compact('cuti'));
+        
+    }
 }

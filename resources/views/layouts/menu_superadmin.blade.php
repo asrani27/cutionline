@@ -61,7 +61,7 @@
     <a href="/superadmin/datacuti" class="nav-link {{ Request::is('superadmin/datacuti') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file"></i>
         <p>
-            Data Cuti 
+            Laporan Cuti 
         </p>
     </a>
     </li>

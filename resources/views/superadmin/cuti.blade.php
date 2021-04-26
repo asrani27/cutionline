@@ -6,6 +6,40 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">LAPORAN CUTI</h3>
+
+        </div>
+        <form method="get" action="/superadmin/datacuti/search">
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-3 col-form-label">Mulai</label>
+              <div class="col-sm-9">
+                <input type="date" name="mulai" class="form-control" value="{{old('mulai')}}">
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-3 col-form-label">S/D</label>
+              <div class="col-sm-9">
+                <input type="date" name="sampai" class="form-control" value="{{old('sampai')}}">
+              </div>
+            </div>
+            
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label"></label>
+              <div class="col-sm-10">
+                <button type="submit" class="btn btn-info">Tampilkan</button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        </form>
+      </div>
+      
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">DATA CUTI PEGAWAI</h3>
@@ -43,8 +77,8 @@
                   </td>
                   <td>{{$item->instalasi}}</td>
                   <td>{{$item->ruangan}}</td>
-                  <td>{{$item->mulai}}</td>
-                  <td>{{$item->sampai}}</td>
+                  <td>{{\Carbon\Carbon::parse($item->mulai)->format('d-m-Y')}}</td>
+                  <td>{{\Carbon\Carbon::parse($item->sampai)->format('d-m-Y')}}</td>
                   <td>{{$item->lama}} Hari</td>
                   <td>
                     @if ($item->status == NULL)
