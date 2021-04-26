@@ -71,6 +71,40 @@ class KadisController extends Controller
         return back();
     }
 
+    public function tolak(Cuti $cuti)
+    {
+        $json1 = $cuti->proses_setuju;
+        $json2 = 
+            [
+                'id_pegawai' => 0,
+                'nama' => 'Kepala Dinas Kesehatan',
+                'status' => 'tolak',
+            ];
+        
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+        
+        $cuti->update([
+            'status' => 2,
+            'proses_setuju' => $json_merge,
+            'proses_status' => null,
+            'proses_atasan' => null,
+            'proses_kadis' => 'T'
+        ]);
+        toastr()->info('Cuti Di Tolak');
+        return back();
+    }
+
     public function cuti()
     {
         $data = Cuti::where('proses_kadis', 'T')->get();

@@ -63,40 +63,39 @@ class CutiController extends Controller
         
         if($pegawai->kai == null){
             if($pegawai->karu == null){
-                if($pegawai->atasan == null){
-                    if($pegawai->jabatan->jenis == 'manajemen'){
+                if($pegawai->jabatan->jenis == 'manajemen'){
+                    if($pegawai->jabatan->atasan == null){
+                        //Direktur RS 
+                        $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
+                        $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
+                        $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
                         
+                        $attr['proses_kadis'] = 'Y';
+                        $attr['proses_status'] = 'Kepala Dinas Kesehatan';
+                        
+                    }else{
                         $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
                         $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
                         $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
                         
                         $attr['proses_atasan'] = $pegawai->jabatan->atasan->pegawai->first()->id;
                         $attr['proses_status'] = $pegawai->jabatan->atasan->nama;
-                        
-                    }else{
-                        //staff di dalam ruangan
-                        $attr['jabatan_id'] = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
-                        $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
-                        $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
-                        if($pegawai->jabatan->ruangan->karu == null){
-                            $attr['proses_atasan'] = $pegawai->jabatan->ruangan->instalasi->kai;
-                            $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->instalasi->nama;
-                        }else{
-                            
-                            $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
-                            $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
-                        }
                     }
                     
                 }else{
-                    $attr['jabatan_id'] = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
+                    //Bukan Manajemen
+                    $attr['jabatan_id'] = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
                     $attr['instalasi']  = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
                     $attr['ruangan']    =   ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
-                    
-                    $attr['proses_atasan'] = $pegawai->jabatan->atasan->pegawai->first()->id;
-                    $attr['proses_status'] = $pegawai->jabatan->atasan->nama;
-                }
-
+                    if($pegawai->jabatan->ruangan->karu == null){
+                        $attr['proses_atasan'] = $pegawai->jabatan->ruangan->instalasi->kai;
+                        $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->instalasi->nama;
+                    }else{
+                        
+                        $attr['proses_atasan'] = $pegawai->jabatan->ruangan->karu;
+                        $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->nama;
+                    }
+                }      
             }else{
                 $attr['jabatan_id']  = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
                 $attr['instalasi']   = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
@@ -221,9 +220,44 @@ class CutiController extends Controller
     
     public function tolak(Cuti $cuti)
     {
+        $json1 = $cuti->proses_setuju;
+        
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->karu == null){
+                $nama =$this->user()->pegawai->jabatan->nama;
+            }else{
+                $nama ='Kepala '.$this->user()->pegawai->karu->nama;
+            }
+        }else{
+            $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
+        }
+        
+        $json2 = 
+        [
+            'id_pegawai' => $this->user()->pegawai->id,
+            'nama' => $nama,
+            'status' => 'tolak',
+        ];            
+
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+        
         $cuti->update([
             'status' => 2,
-            'validator' => Auth::user()->pegawai->id,
+            'proses_setuju' => $json_merge,
+            'proses_status' => null,
+            'proses_atasan' => null,
+            'proses_kadis' => null,
         ]);
         toastr()->info('Cuti Di Tolak');
         return back();

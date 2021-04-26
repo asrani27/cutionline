@@ -24,7 +24,7 @@
                         Karu {{Auth::user()->pegawai->karu->nama}}<br/>
                       @endif                        
                       @if (Auth::user()->pegawai->kai != null)
-                        Kai {{Auth::user()->pegawai->kai->nama}}
+                        Kepala {{Auth::user()->pegawai->kai->nama}}
                       @endif  
                       
                       @if (Auth::user()->pegawai->jabatan == null)
@@ -70,7 +70,7 @@
                         <h5 class="widget-user-desc">{{$atasan->jabatan == null ? '-': $atasan->jabatan->nama}}
                           -
                           @if ($atasan->karu != null)
-                            Ka. Ruangan : {{$atasan->karu->nama}}<br/>
+                            Ka. Ruangan {{$atasan->karu->nama}}<br/>
                             <h5 class="widget-user-desc">
                                 {{$atasan->karu->nama}}
                             </h5>
