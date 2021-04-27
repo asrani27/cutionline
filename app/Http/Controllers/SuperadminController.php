@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use File;
 use Exception;
 use ZipArchive;
+use Carbon\Carbon;
 use App\Models\Cuti;
 use App\Models\Role;
 use App\Models\Skpd;
 use App\Models\User;
 use App\Models\Jabatan;
 use App\Models\Pegawai;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use App\Imports\PegawaiImport;
 use App\Models\KategoriUpload;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -355,14 +358,41 @@ class SuperadminController extends Controller
 
     public function datacutisearch()
     {
-
-        $mulai = request()->get('mulai');
+        $mulai  = request()->get('mulai');
         $sampai = request()->get('sampai');
+        $button = request()->get('button');
         request()->flash();
         
-        $cuti = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->paginate(10);
-        
-        return view('superadmin.cuti',compact('cuti'));
-        
+        if($button == 1){
+            $cuti = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->paginate(10);
+            return view('superadmin.cuti',compact('cuti'));
+        }else{
+            
+            $data = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->get();
+            $cuti = $data->map(function($item){
+                $data['nama']     = $item->pegawai->nama;
+                $data['nip']      = $item->pegawai->nip;
+                $data['instansi'] = 'RSUD Sultan Suriansyah';
+                $data['mulai']    = $item->mulai;
+                $data['sampai']   = $item->sampai;
+                $data['lama']     = $item->lama;
+                $data['keterangan']     = $item->alasan;
+                if($item->pegawai->jabatan == null){
+                    if($item->pegawai->karu != null){
+                        $data['jabatan'] = 'Ka. Ruangan '.$item->pegawai->karu->nama;
+                    }
+                    if($item->pegawai->kai != null){
+                        $data['jabatan'] = 'Ka. '.$item->pegawai->kai->nama;
+                    }
+                }else{
+                $data['jabatan'] = $item->pegawai->jabatan->nama;
+                }
+                return $data;
+            });
+            
+            $pdf = PDF::loadView('superadmin.laporan_cuti',compact('mulai','sampai','cuti'))->setPaper('letter', 'landscape');
+
+            return $pdf->download('laporan_cuti.pdf');        
+        }
     }
 }

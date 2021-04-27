@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Cuti;
 use App\Models\Jabatan;
 use App\Models\Kadinkes;
+use Carbon\CarbonPeriod;
 use App\Models\Jenis_cuti;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -59,7 +60,20 @@ class CutiController extends Controller
         $pegawai = Auth::user()->pegawai;
         
         $attr = $req->all();
-        $attr['lama'] = $mulai->diffInDays($sampai)+1;
+        $dateAll = CarbonPeriod::create($mulai, $sampai);
+            
+        $collection = collect($dateAll)->map(function($value, $key){
+            $value = $value->format('l');
+            return $value;
+        });
+
+        if($req->jenis_cuti_id == 1){
+            // Cuti Tahunan Tidak Termasuk Hari minggu
+            $attr['lama'] = count($collection->diff(['Sunday']));
+        }else{
+            // Cuti Lainnya Termasuk Hari minggu
+            $attr['lama'] = count($collection);
+        }
         
         if($pegawai->kai == null){
             if($pegawai->karu == null){

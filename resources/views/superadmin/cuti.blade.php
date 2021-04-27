@@ -17,21 +17,27 @@
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-3 col-form-label">Mulai</label>
               <div class="col-sm-9">
-                <input type="date" name="mulai" class="form-control" value="{{old('mulai')}}">
+                <input type="date" name="mulai" class="form-control" value="{{old('mulai')}}" required>
               </div>
             </div>
             
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-3 col-form-label">S/D</label>
               <div class="col-sm-9">
-                <input type="date" name="sampai" class="form-control" value="{{old('sampai')}}">
+                <input type="date" name="sampai" class="form-control" value="{{old('sampai')}}" required>
               </div>
             </div>
             
             <div class="form-group row">
-              <label for="inputEmail3" class="col-sm-2 col-form-label"></label>
-              <div class="col-sm-10">
-                <button type="submit" class="btn btn-info">Tampilkan</button>
+              <label for="inputEmail3" class="col-sm-3 col-form-label"></label>
+              <div class="col-sm-9">
+                <button type="submit" class="btn btn-info" name="button" value="1">Tampilkan</button>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-3 col-form-label"></label>
+              <div class="col-sm-9">
+                <button type="submit" class="btn btn-danger" name="button" value="2">PDF</button>
               </div>
             </div>
             
@@ -116,7 +122,9 @@
                     {{$item->proses_status}}
                   </td>
                   <td>
-                    <a href="/pegawai/ajukan/download/pdf/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='PDF' target="_blank"><i class="fas fa-file-pdf"></i></a>
+                    @if ($item->status == 1)
+                        <a href="/pegawai/ajukan/download/pdf/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='PDF' target="_blank"><i class="fas fa-file-pdf"></i></a>
+                    @endif
                   </td>
                 </tr>
                 @endforeach
