@@ -42,6 +42,7 @@
                         <th>Nama Jabatan</th>
                         <th>Atasan</th>
                         <th>Lihat Semua Cuti</th>
+                        <th>Kasi Yg Skip Kabid/Setara</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -56,9 +57,16 @@
                             <td>{{$item->atasan == null ? '-': $item->atasan->nama}}</td>
                             <th>
                               @if ($item->view == null)
-                              <a href="/superadmin/manajemen/struktural/edit/lihat/{{$item->id}}" onclick="return confirm('Yakin ingin di buka?');"><i class="far fa-times-circle"></i></a>
+                              <a href="/superadmin/manajemen/struktural/edit/lihat/{{$item->id}}" onclick="return confirm('Yakin ingin di buka?');"><span class="text-danger"><i class="far fa-times-circle"></i></span></a>
                               @else
-                              <a href="/superadmin/manajemen/struktural/edit/tidaklihat/{{$item->id}}" onclick="return confirm('Yakin ingin di tutup?');"><i class="far fa-check-circle"></i></a>
+                              <a href="/superadmin/manajemen/struktural/edit/tidaklihat/{{$item->id}}" onclick="return confirm('Yakin ingin di tutup?');"><span class="text-success"><i class="far fa-check-circle"></i></span></a>
+                              @endif
+                            </th>
+                            <th>
+                              @if ($item->skip == null)
+                              <a href="/superadmin/manajemen/struktural/edit/skip/{{$item->id}}" onclick="return confirm('Yakin ingin di buka?');"><span class="text-danger"><i class="far fa-times-circle"></i></span></a>
+                              @else
+                              <a href="/superadmin/manajemen/struktural/edit/tidakskip/{{$item->id}}" onclick="return confirm('Yakin ingin di tutup?');"><span class="text-success"><i class="far fa-check-circle"></i></span></a>
                               @endif
                             </th>
                             <td>

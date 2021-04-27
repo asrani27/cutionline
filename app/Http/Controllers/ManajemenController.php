@@ -77,4 +77,24 @@ class ManajemenController extends Controller
         toastr()->info('Jabatan ini tidak bisa melihat semua cuti pegawai di RS');
         return back();
     }
+
+    public function skip($id)
+    {
+        Jabatan::find($id)->update([
+            'skip' => 1,
+        ]);
+        
+        toastr()->info('Jabatan ini bisa melewati persetujuan kabid/setara dan langsung ke direktur');
+        return back();
+    }
+
+    public function notskip($id)
+    {
+        Jabatan::find($id)->update([
+            'skip' => NULL,
+        ]);
+        
+        toastr()->info('Jabatan ini tidak bisa melewati persetujuan kabid/setara dan langsung ke direktur');
+        return back();
+    }
 }

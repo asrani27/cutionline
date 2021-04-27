@@ -80,8 +80,14 @@ class PegawaiController extends Controller
                 $manajemen = false;
                 $proses_status = 'kai';
             }
-        }
 
+            if($this->user()->pegawai->karu != null){
+                $atasan = $this->user()->pegawai->karu->instalasi->kainstalasi;
+                $manajemen = false;
+                $proses_status = 'karu';
+            }
+        }
+        
         return view('pegawai.home',compact('cuti','daftarCuti','atasan','manajemen','sisaCuti'));
     }
     public function profil()

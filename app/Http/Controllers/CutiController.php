@@ -97,13 +97,15 @@ class CutiController extends Controller
                     }
                 }      
             }else{
-                $attr['jabatan_id']  = $pegawai->jabatan == null ? '':$pegawai->jabatan->id;
-                $attr['instalasi']   = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->instalasi->nama;
-                $attr['ruangan']     = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->jabatan->ruangan->nama;
+                // Jika Karu Tidak Kosong
                 
-                $attr['proses_atasan'] = $pegawai->jabatan->ruangan->instalasi->kainstalasi->id;
+                $attr['jabatan_id']  = $pegawai->jabatan == null ? null:$pegawai->jabatan->id;
+                $attr['instalasi']   = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->karu->instalasi->nama;
+                $attr['ruangan']     = ($pegawai->jabatan == null ? '':$pegawai->jabatan->jenis) == 'manajemen' ? 'manajemen' : $pegawai->karu->nama;
+                
+                $attr['proses_atasan'] = $pegawai->karu->instalasi->kainstalasi->id;
 
-                $attr['proses_status'] = 'Kepala '.$pegawai->jabatan->ruangan->instalasi->nama;
+                $attr['proses_status'] = 'Kepala '.$pegawai->karu->instalasi->nama;
                 
             }
             
@@ -217,6 +219,56 @@ class CutiController extends Controller
         return back();
     }
 
+    public function setujuiskip(Cuti $cuti)
+    {
+        $json1 = $cuti->proses_setuju;
+        
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->karu == null){
+                $nama =$this->user()->pegawai->jabatan->nama;
+            }else{
+                $nama ='Kepala '.$this->user()->pegawai->karu->nama;
+            }
+        }else{
+            $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
+        }
+        
+        $json2 = 
+        [
+            'id_pegawai' => $this->user()->pegawai->id,
+            'nama' => $nama,
+            'status' => 'setuju',
+        ];            
+
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+
+        // Langsung ke direktur
+        $id_pegawai_atasan = Jabatan::where('jenis','manajemen')->where('jabatan_id',null)->first()->pegawai[0]->id;
+        $proses_kadis      = null;
+        $atasan            = Jabatan::where('jenis','manajemen')->where('jabatan_id',null)->first()->nama;
+        
+        $cuti->update([
+            'proses_setuju' => $json_merge,
+            'proses_status' => $atasan,
+            'proses_atasan' => $id_pegawai_atasan,
+            'proses_kadis' => $proses_kadis,
+        ]);
+        
+        toastr()->info('Cuti Dilanjutkan Ke Atasan : '. $atasan);
+        return back();
+        
+    }
     
     public function tolak(Cuti $cuti)
     {

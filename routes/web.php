@@ -105,7 +105,9 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/superadmin/manajemen/struktural/edit/{id}', [ManajemenController::class, 'update']);
     Route::get('/superadmin/manajemen/struktural/delete/{id}', [ManajemenController::class, 'delete']);
     Route::get('/superadmin/manajemen/struktural/edit/lihat/{id}', [ManajemenController::class, 'view']);
-    Route::get('/superadmin/manajemen/struktural/edit/tidaklihat/{id}', [ManajemenController::class, 'notview']);
+    Route::get('/superadmin/manajemen/struktural/edit/tidaklihat/{id}', [ManajemenController::class, 'notview']);    
+    Route::get('/superadmin/manajemen/struktural/edit/skip/{id}', [ManajemenController::class, 'skip']);
+    Route::get('/superadmin/manajemen/struktural/edit/tidakskip/{id}', [ManajemenController::class, 'notskip']);
 
     Route::get('/superadmin/ttd', [TtdController::class, 'index']);
     Route::get('/superadmin/ttd/upload/{id}', [TtdController::class, 'upload']);
@@ -137,6 +139,7 @@ Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/riwayat/cuti', [PegawaiController::class, 'riwayatCuti']); 
 
     Route::get('/pegawai/ajukan/validasi/setujui/{cuti}', [CutiController::class, 'setujui']);
+    Route::get('/pegawai/ajukan/validasi/setujui/skip/{cuti}', [CutiController::class, 'setujuiskip']);
     Route::get('/pegawai/ajukan/validasi/tolak/{cuti}', [CutiController::class, 'tolak']);   
     Route::get('/pegawai/ajukan/download/pdf/{cuti}', [CutiController::class, 'pdf']);   
     
