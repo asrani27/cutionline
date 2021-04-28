@@ -368,7 +368,7 @@ class SuperadminController extends Controller
             return view('superadmin.cuti',compact('cuti'));
         }else{
             
-            $data = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->get();
+            $data = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->where('status',1)->orderBy('id','DESC')->get();
             $cuti = $data->map(function($item){
                 $data['nama']     = $item->pegawai->nama;
                 $data['nip']      = $item->pegawai->nip;
