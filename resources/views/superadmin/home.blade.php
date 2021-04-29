@@ -125,12 +125,12 @@
                     @foreach (collect(json_decode($item->proses_setuju)) as $item2)
                         <li>{{$item2->nama}} - {{$item2->status}}</li>
                         
-                        @if ($item->kabid_id != null)
-                        <li>
-                          Mengetahui : {{$item->kabid->nama}}
-                        </li>
-                        @endif
                     @endforeach
+                    @if ($item->kabid_id != null)
+                    <li>
+                      Mengetahui : {{$item->kabid->nama}}
+                    </li>
+                    @endif
                     </ul>
                   </td>
                   <td>
