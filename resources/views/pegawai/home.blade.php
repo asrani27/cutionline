@@ -210,7 +210,14 @@
                       <ul>
                       @foreach (collect(json_decode($item->proses_setuju)) as $item2)
                           <li>{{$item2->nama}} - {{$item2->status}}</li>
+                          
+                          @if ($item->kabid_id != null)
+                          <li>
+                            Mengetahui : {{$item->kabid->nama}}
+                          </li>
+                          @endif
                       @endforeach
+                      
                       </ul>
                     </td>
                     <td>
@@ -280,6 +287,9 @@
                     @if ($item->pegawai->kai != null)
                         Ka. {{$item->instalasi}}
                     @endif
+                    @if ($item->pegawai->karu != null)
+                        Ka. {{$item->ruangan}}
+                    @endif
                     {{$item->jabatan == null ? '':$item->jabatan->nama}}</td>
                   <td>{{$item->instalasi}}</td>
                   <td>{{$item->ruangan}}</td>
@@ -316,6 +326,11 @@
                     @foreach (collect(json_decode($item->proses_setuju)) as $item2)
                         <li>{{$item2->nama}} - {{$item2->status}}</li>
                     @endforeach
+                    @if ($item->kabid_id != null)
+                        <li>
+                          Mengetahui : {{$item->kabid->nama}}
+                        </li>
+                    @endif
                     </ul>
                   </td>
                   <td>

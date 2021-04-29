@@ -30,4 +30,9 @@ class Cuti extends Model
     {
         return $this->belongsTo(Jenis_cuti::class, 'jenis_cuti_id');
     }
+
+    public function kabid()
+    {
+        return $this->belongsTo(Jabatan::class, 'kabid_id');
+    }
 }

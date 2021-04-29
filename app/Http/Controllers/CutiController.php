@@ -267,6 +267,9 @@ class CutiController extends Controller
                 $json_merge = '['.json_encode($json2).']';
         }
 
+        //Kabid mengetahui
+        $kabid_id = $this->user()->pegawai->jabatan->atasan;
+        
         // Langsung ke direktur
         $id_pegawai_atasan = Jabatan::where('jenis','manajemen')->where('jabatan_id',null)->first()->pegawai[0]->id;
         $proses_kadis      = null;
@@ -277,6 +280,7 @@ class CutiController extends Controller
             'proses_status' => $atasan,
             'proses_atasan' => $id_pegawai_atasan,
             'proses_kadis' => $proses_kadis,
+            'kabid_id' => $kabid_id->id,
         ]);
         
         toastr()->info('Cuti Dilanjutkan Ke Atasan : '. $atasan);
