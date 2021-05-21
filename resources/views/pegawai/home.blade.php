@@ -363,6 +363,27 @@
         
     </div>
 </div>
+
+<div class="modal fade show" id="modal-primary" style="display: block; padding-right: 16px;" aria-modal="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-primary">
+      <div class="modal-header">
+        <h4 class="modal-title">Di Setujui</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        Catatan : <textarea></textarea>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-outline-light" data-dismiss="modal">keluar</button>
+        <button type="button" class="btn btn-outline-light">Simpan</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 @endsection
 
 @push('js')

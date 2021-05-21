@@ -36,14 +36,17 @@ class KadisController extends Controller
         }
         return back();
     }
-    public function setujui(Cuti $cuti)
+    public function setujui(Request $req)
     {
+        $cuti = Cuti::findOrFail($req->cuti_id);
+        
         $json1 = $cuti->proses_setuju;
         $json2 = 
             [
                 'id_pegawai' => 0,
                 'nama' => 'Kepala Dinas Kesehatan',
                 'status' => 'setuju',
+                'catatan' => $req->catatan,
             ];
         
         $json_proses = json_decode($json1, true);
@@ -71,14 +74,16 @@ class KadisController extends Controller
         return back();
     }
 
-    public function tolak(Cuti $cuti)
+    public function tolak(Request $req)
     {
+        $cuti = Cuti::findOrFail($req->cuti_id);
         $json1 = $cuti->proses_setuju;
         $json2 = 
             [
                 'id_pegawai' => 0,
                 'nama' => 'Kepala Dinas Kesehatan',
                 'status' => 'tolak',
+                'catatan' => $req->catatan,
             ];
         
         $json_proses = json_decode($json1, true);

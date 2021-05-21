@@ -115,8 +115,8 @@
                   <td>
                       
                     @if ($item->status == NULL)
-                    <a href="/kadis/validasi/setujui/{{$item->id}}" class="btn btn-xs btn-success" data-toggle="tooltip" title='Setujui' onclick="return confirm('Yakin ingin di setujui?, setelah di setujui maka tidak dapat di ubah kembali');"><i class="fas fa-check"></i></a>
-                    <a href="/kadis/validasi/tolak/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='Tolak' onclick="return confirm('Yakin ingin di tolak?, setelah di tolak maka tidak dapat di ubah kembali');"><i class="fas fa-times"></i></a>
+                    <a href="#" class="btn btn-xs btn-success disetujui" data-id="{{$item->id}}" data-toggle="tooltip" title='Setujui'><i class="fas fa-check"></i></a>
+                    <a href="#" class="btn btn-xs btn-danger ditolak" data-id="{{$item->id}}" data-toggle="tooltip" title='Tolak'><i class="fas fa-times"></i></a>
                     @else
                     <a href="/kadis/download/pdf/{{$item->id}}" class="btn btn-xs btn-danger" data-toggle="tooltip" title='PDF' target="_blank"><i class="fas fa-file-pdf"></i></a>
                     @endif
@@ -136,8 +136,76 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-setuju">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-success">
+        <h4 class="modal-title">Di Setujui</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+      </div>
+      <form method="post" action="/kadis/validasi/setujui">
+        @csrf
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Catatan</label>
+          <textarea class="form-control" rows="3" name="catatan" placeholder="Catatan...."></textarea>
+          <input type="hidden" name="cuti_id" id="cuti_id_setuju">
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between bg-success">
+        <button type="button" class="btn btn-sm btn-outline-light" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+        <button type="submit" class="btn btn-sm btn-outline-light"><i class="fas fa-save"></i> Simpan</button>
+      </div>
+    </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-tolak">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h4 class="modal-title">Di Tolak</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span></button>
+      </div>
+      <form method="post" action="/kadis/validasi/tolak">
+        @csrf
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Catatan</label>
+          <textarea class="form-control" rows="3" name="catatan" placeholder="Catatan...."></textarea>
+          <input type="hidden" name="cuti_id" id="cuti_id_tolak">
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between bg-danger">
+        <button type="button" class="btn btn-sm btn-outline-light" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+        <button type="submit" class="btn btn-sm btn-outline-light"><i class="fas fa-save"></i> Simpan</button>
+      </div>
+    </form>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
 @endsection
 
 @push('js')
-    
+<script>
+  $(document).on('click', '.disetujui', function() {
+    var cuti_id = $(this).data('id');
+    $('#cuti_id_setuju').val(cuti_id);
+    $('#modal-setuju').modal('show');
+  });
+
+  $(document).on('click', '.ditolak', function() {
+    var cuti_id = $(this).data('id');
+    $('#cuti_id_tolak').val(cuti_id);
+    $('#modal-tolak').modal('show');
+  });
+</script>
 @endpush
