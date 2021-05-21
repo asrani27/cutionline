@@ -502,7 +502,7 @@ class CutiController extends Controller
         }else{
                 $json_merge = '['.json_encode($json2).']';
         }
-        $dt = Cuti::find($req->cuti_id)
+        $dt = Cuti::find($req->cuti_id);
         $dt->update([
             'status' => 2,
             'proses_setuju' => $json_merge,
