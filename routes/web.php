@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth', 'role:kadis']], function () {
     Route::get('/kadis/profil', [KadisController::class, 'profil']);
     Route::post('/kadis/profil', [KadisController::class, 'changeKadis']);
     Route::post('/kadis/validasi/setujui', [KadisController::class, 'setujui']);
-    Route::get('/kadis/validasi/tolak', [KadisController::class, 'tolak']);   
+    Route::post('/kadis/validasi/tolak', [KadisController::class, 'tolak']);   
     Route::get('/kadis/download/pdf/{cuti}', [KadisController::class, 'pdf']);   
     Route::get('/kadis/riwayat/cuti', [KadisController::class, 'cuti']);
 });
