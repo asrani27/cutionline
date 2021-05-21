@@ -333,6 +333,186 @@ class CutiController extends Controller
         return back();
     }
 
+    public function setujuiPost(Request $req)
+    {
+        $json1 = Cuti::find($req->cuti_id)->proses_setuju;
+        
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->karu == null){
+                $nama =$this->user()->pegawai->jabatan->nama;
+            }else{
+                $nama ='Kepala '.$this->user()->pegawai->karu->nama;
+            }
+        }else{
+            $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
+        }
+        
+        $json2 = 
+        [
+            'id_pegawai' => $this->user()->pegawai->id,
+            'nama' => $nama,
+            'status' => 'setuju',
+            'catatan' => $req->catatan,
+        ];            
+
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+        
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->karu == null){
+                if($this->user()->pegawai->jabatan->jenis ='manajemen' && $this->user()->pegawai->jabatan->jabatan_id == null){
+                    $id_pegawai_atasan = null;
+                    $proses_kadis = 'Y';
+                    $atasan = 'Kepala Dinas Kesehatan';
+                }else{
+                    $atasan = $this->user()->pegawai->jabatan->atasan->nama;
+                    $id_pegawai_atasan = $this->user()->pegawai->jabatan->atasan->pegawai->first()->id;
+                    $proses_kadis = null;
+                }
+            }else{
+                //Jika Karu Disini
+                if($this->user()->pegawai->karu->instalasi->kai == null){
+                    toastr()->info('Kepala Instalasi Kosong, Harap Isi Kepala Instalasi');
+                    return back();
+                }else{
+                    $atasan = 'Kepala '.$this->user()->pegawai->karu->instalasi->nama;
+                    $id_pegawai_atasan = $this->user()->pegawai->karu->instalasi->kai;
+                    $proses_kadis = null;
+                }
+            }
+        }else{
+            if($this->user()->pegawai->kai->atasanlangsung == null){
+                toastr()->info('Atasan Kepala Instalasi kosong, harap isi terlebih dahulu Atasan Kepala Instalasi yaitu Kepala Seksi');
+                return back();
+            }else{
+                $atasan = $this->user()->pegawai->kai->atasanlangsung->nama;
+                $id_pegawai_atasan = $this->user()->pegawai->kai->atasanlangsung->pegawai->first()->id;
+                $proses_kadis = null;
+            }
+        }
+        
+        $dt = Cuti::find($req->cuti_id);
+        $dt->update([
+            'proses_setuju' => $json_merge,
+            'proses_status' => $atasan,
+            'proses_atasan' => $id_pegawai_atasan,
+            'proses_kadis' => $proses_kadis,
+        ]);
+        
+        toastr()->info('Cuti Dilanjutkan Ke Atasan : '. $atasan);
+        return back();
+    }
+
+    public function setujuiskipPost(Cuti $cuti)
+    {
+        $json1 = $cuti->proses_setuju;
+        
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->karu == null){
+                $nama =$this->user()->pegawai->jabatan->nama;
+            }else{
+                $nama ='Kepala '.$this->user()->pegawai->karu->nama;
+            }
+        }else{
+            $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
+        }
+        
+        $json2 = 
+        [
+            'id_pegawai' => $this->user()->pegawai->id,
+            'nama' => $nama,
+            'status' => 'setuju',
+        ];            
+
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+
+        //Kabid mengetahui
+        $kabid_id = $this->user()->pegawai->jabatan->atasan;
+        
+        // Langsung ke direktur
+        $id_pegawai_atasan = Jabatan::where('jenis','manajemen')->where('jabatan_id',null)->first()->pegawai[0]->id;
+        $proses_kadis      = null;
+        $atasan            = Jabatan::where('jenis','manajemen')->where('jabatan_id',null)->first()->nama;
+        
+        $cuti->update([
+            'proses_setuju' => $json_merge,
+            'proses_status' => $atasan,
+            'proses_atasan' => $id_pegawai_atasan,
+            'proses_kadis' => $proses_kadis,
+            'kabid_id' => $kabid_id->id,
+        ]);
+        
+        toastr()->info('Cuti Dilanjutkan Ke Atasan : '. $atasan);
+        return back();
+        
+    }
+    
+    public function tolakPost(Cuti $cuti)
+    {
+        $json1 = $cuti->proses_setuju;
+        
+        if($this->user()->pegawai->kai == null){
+            if($this->user()->pegawai->karu == null){
+                $nama =$this->user()->pegawai->jabatan->nama;
+            }else{
+                $nama ='Kepala '.$this->user()->pegawai->karu->nama;
+            }
+        }else{
+            $nama = 'Kepala '.$this->user()->pegawai->kai->nama;
+        }
+        
+        $json2 = 
+        [
+            'id_pegawai' => $this->user()->pegawai->id,
+            'nama' => $nama,
+            'status' => 'tolak',
+        ];            
+
+        $json_proses = json_decode($json1, true);
+        if($json_proses != null){
+            foreach($json_proses as $item)
+            {
+                $data_json[] = $item;
+            }
+                $data_json[] = $json2;
+        
+                $json_merge = json_encode($data_json);
+        }else{
+                $json_merge = '['.json_encode($json2).']';
+        }
+        
+        $cuti->update([
+            'status' => 2,
+            'proses_setuju' => $json_merge,
+            'proses_status' => null,
+            'proses_atasan' => null,
+            'proses_kadis' => null,
+        ]);
+        toastr()->info('Cuti Di Tolak');
+        return back();
+    }
+
     public function pdf(Cuti $cuti)
     {
         $url = env('APP_URL').'/check/verifikasi/digital/cuti/rsud/'.$cuti->id;

@@ -143,6 +143,10 @@ Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/ajukan/validasi/tolak/{cuti}', [CutiController::class, 'tolak']);   
     Route::get('/pegawai/ajukan/download/pdf/{cuti}', [CutiController::class, 'pdf']);   
     
+    Route::post('/pegawai/ajukan/validasi/setujui/', [CutiController::class, 'setujuiPost']);
+    Route::post('/pegawai/ajukan/validasi/setujui/skip/', [CutiController::class, 'setujuiskipPost']);
+    Route::post('/pegawai/ajukan/validasi/tolak/', [CutiController::class, 'tolakPost']);   
+
     Route::get('/pegawai/surat-sakit', [SuratSakitController::class, 'index']);  
     Route::get('/pegawai/surat-sakit/add', [SuratSakitController::class, 'add']);  
     Route::post('/pegawai/surat-sakit/add', [SuratSakitController::class, 'store']);  
