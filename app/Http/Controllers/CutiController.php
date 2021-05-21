@@ -468,9 +468,9 @@ class CutiController extends Controller
         
     }
     
-    public function tolakPost(Cuti $cuti)
+    public function tolakPost(Request $req)
     {
-        $json1 = $cuti->proses_setuju;
+        $json1 = Cuti::find($req->cuti_id)->proses_setuju;
         
         if($this->user()->pegawai->kai == null){
             if($this->user()->pegawai->karu == null){
@@ -487,6 +487,7 @@ class CutiController extends Controller
             'id_pegawai' => $this->user()->pegawai->id,
             'nama' => $nama,
             'status' => 'tolak',
+            'catatan' => $req->catatan,
         ];            
 
         $json_proses = json_decode($json1, true);
@@ -501,8 +502,8 @@ class CutiController extends Controller
         }else{
                 $json_merge = '['.json_encode($json2).']';
         }
-        
-        $cuti->update([
+        $dt = Cuti::find($req->cuti_id)
+        $dt->update([
             'status' => 2,
             'proses_setuju' => $json_merge,
             'proses_status' => null,
