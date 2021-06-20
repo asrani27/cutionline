@@ -13,6 +13,7 @@ use App\Http\Controllers\InstalasiController;
 use App\Http\Controllers\ManajemenController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\SuratSakitController;
+use App\Http\Controllers\LiburNasionalController;
 
 Route::get('/', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
@@ -49,6 +50,13 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     Route::post('/superadmin/skpd/edit/{id}', [SuperadminController::class, 'updateSkpd']);
     Route::get('/superadmin/skpd/delete/{id}', [SuperadminController::class, 'deleteSkpd']);
     
+    Route::get('/superadmin/libur_nasional', [LiburNasionalController::class, 'index']);
+    Route::get('/superadmin/libur_nasional/add', [LiburNasionalController::class, 'create']);
+    Route::post('/superadmin/libur_nasional/add', [LiburNasionalController::class, 'store']);
+    // Route::get('/superadmin/libur_nasional/edit/{id}', [LiburNasionalController::class, 'editSkpd']);
+    // Route::post('/superadmin/libur_nasional/edit/{id}', [LiburNasionalController::class, 'updateSkpd']);
+    Route::get('/superadmin/libur_nasional/delete/{id}', [LiburNasionalController::class, 'delete']);
+
     Route::get('/superadmin/pegawai', [SuperadminController::class, 'pegawai']);
     Route::get('/superadmin/pegawai/add', [SuperadminController::class, 'addPegawai']);
     Route::post('/superadmin/pegawai/add', [SuperadminController::class, 'storePegawai']);

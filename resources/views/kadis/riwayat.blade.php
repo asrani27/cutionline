@@ -59,7 +59,9 @@
                   <td>
                     <ul>
                     @foreach (collect(json_decode($item->proses_setuju)) as $item2)
-                        <li>{{$item2->nama}} - {{$item2->status}}</li>
+                        <li>{{$item2->nama}} - {{$item2->status}}<br/>
+                          Catatan : {{$item2->catatan}}
+                        </li>
                     @endforeach
                     </ul>
                   </td>

@@ -9,6 +9,7 @@ use App\Models\Kadinkes;
 use Carbon\CarbonPeriod;
 use App\Models\Jenis_cuti;
 use Illuminate\Http\Request;
+use App\Models\LiburNasional;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -61,12 +62,21 @@ class CutiController extends Controller
         
         $attr = $req->all();
         $dateAll = CarbonPeriod::create($mulai, $sampai);
-            
-        $collection = collect($dateAll)->map(function($value, $key){
-            $value = $value->format('l');
+
+        $dates = [];
+
+        foreach($dateAll as $item) {
+            $dates[] = $item->format('Y-m-d');
+        }
+
+        $liburNasional = LiburNasional::get();
+        $diff = collect($dates)->diff($liburNasional->pluck('tanggal'));
+
+        $collection = collect($diff)->map(function($value, $key){
+            $value = Carbon::parse($value)->format('l');
             return $value;
         });
-
+        
         if($req->jenis_cuti_id == 1){
             // Cuti Tahunan Tidak Termasuk Hari minggu
             $attr['lama'] = count($collection->diff(['Sunday']));

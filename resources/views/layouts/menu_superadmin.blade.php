@@ -58,6 +58,14 @@
     </a>
     </li>
     <li class="nav-item">
+    <a href="/superadmin/libur_nasional" class="nav-link {{ Request::is('superadmin/libur_nasional') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-calendar"></i>
+        <p>
+            Libur Nasional
+        </p>
+    </a>
+    </li>
+    <li class="nav-item">
     <a href="/superadmin/datacuti" class="nav-link {{ Request::is('superadmin/datacuti') ? 'active' : '' }}">
         <i class="nav-icon fas fa-file"></i>
         <p>
