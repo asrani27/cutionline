@@ -159,7 +159,9 @@ Route::group(['middleware' => ['auth', 'role:pegawai']], function () {
     Route::get('/pegawai/surat-sakit/add', [SuratSakitController::class, 'add']);  
     Route::post('/pegawai/surat-sakit/add', [SuratSakitController::class, 'store']);  
     Route::get('/pegawai/surat-sakit/delete/{id}', [SuratSakitController::class, 'delete']);  
-
+    
+    Route::get('/pegawai/cuti/semuapegawai', [SuperadminController::class, 'datacuti']);  
+    Route::get('/superadmin/datacuti/search', [SuperadminController::class, 'datacutisearch']);
 });
 
 Route::group(['middleware' => ['auth', 'role:pegawai|superadmin']], function () {
