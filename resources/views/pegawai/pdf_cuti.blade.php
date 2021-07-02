@@ -65,7 +65,7 @@
 			NOMOR 24 TAHUN 2017<br />
 			TENTANG<br />
 			TATA CARA PEMBERIAN CUTI PEGAWAI NEGERI SIPIL<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Banjarmasin, {{\Carbon\Carbon::now()->isoFormat('d MMMM Y')}}<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Banjarmasin, {{\Carbon\Carbon::parse($cuti->created_at)->isoFormat('D MMMM Y')}}<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 			Kepada<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Yth. Kepala 
