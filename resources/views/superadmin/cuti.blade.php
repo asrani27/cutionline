@@ -57,6 +57,7 @@
               <thead>
                 <tr>
                   <th>#</th>
+                  <td><strong>Tgl DiBuat</strong></td>
                   <th>NIP/NIK/Nama/Jabatan</th>
                   <th>Instalasi</th>
                   <th>Ruangan</th>
@@ -77,6 +78,7 @@
                 @foreach ($cuti as $item)
                 <tr style="font-size:12px; font-family:Arial, Helvetica, sans-serif">
                   <td>{{$no++}}</td>
+                  <td>{{\Carbon\Carbon::parse($item->created_at)->format('d-m-Y')}}</td>
                   <td>{{$item->pegawai->nama}}<br/>
                     NIP/NIK.{{$item->pegawai->nip}}<br/>
                     {{$item->jabatan == null ? '': $item->jabatan->nama}}
