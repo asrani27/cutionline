@@ -56,6 +56,9 @@ class CutiController extends Controller
 
     public function store(Request $req)
     {
+        
+        $sisaCuti = 12 - Cuti::where('pegawai_id', $this->user()->pegawai->id)->where('jenis_cuti_id', 1)->sum('lama');
+        
         $mulai   = Carbon::parse($req->mulai);
         $sampai  = Carbon::parse($req->sampai);
         $pegawai = Auth::user()->pegawai;
@@ -83,6 +86,11 @@ class CutiController extends Controller
         }else{
             // Cuti Lainnya Termasuk Hari minggu
             $attr['lama'] = count($collection);
+        }
+        if($attr['lama'] > $sisaCuti)
+        {
+            toastr()->error('Tidak bisa mengajukan, Sisa Cuti Anda '. $sisaCuti. ' Hari');
+            return back();
         }
         
         if($pegawai->kai == null){
