@@ -33,18 +33,20 @@
         </p>
     </a>
     </li>
-    @if (Auth::user()->pegawai->jabatan->view == 1)
-       
-    <li class="nav-item">
-    <a href="/pegawai/cuti/semuapegawai" class="nav-link">
-        <i class="nav-icon fas fa-users"></i>
-        <p>
-        Cuti Semua Pegawai
-        </p>
-    </a>
-    </li> 
+    @if (Auth::user()->pegawai->jabatan != null)        
+        @if (Auth::user()->pegawai->jabatan->view == 1)
+        
+        <li class="nav-item">
+        <a href="/pegawai/cuti/semuapegawai" class="nav-link">
+            <i class="nav-icon fas fa-users"></i>
+            <p>
+            Cuti Semua Pegawai
+            </p>
+        </a>
+        </li> 
+        @endif
     @endif
-
+    
     <li class="nav-item">
     <a href="/logout" class="nav-link">
         <i class="nav-icon fas fa-sign-out-alt"></i>
