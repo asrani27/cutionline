@@ -11,7 +11,7 @@
           <h3 class="card-title">LAPORAN CUTI</h3>
 
         </div>
-        <form method="get" action="/superadmin/datacuti/search">
+        <form method="get" action="/superadmin/datacuti/cari">
         <div class="card-body">
           <div class="row">
             <div class="form-group row">

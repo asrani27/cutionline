@@ -128,7 +128,7 @@ Route::group(['middleware' => ['auth', 'role:superadmin']], function () {
     
 
     Route::get('/superadmin/datacuti', [SuperadminController::class, 'datacuti']);
-    Route::get('/superadmin/datacuti/search', [SuperadminController::class, 'datacutisearch']);
+    Route::get('/superadmin/datacuti/cari', [SuperadminController::class, 'datacutisearch']);
 
 });
 
