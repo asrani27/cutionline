@@ -364,7 +364,7 @@ class SuperadminController extends Controller
         request()->flash();
         
         if($button == 1){
-            $cuti = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->paginate(10);
+            $cuti = Cuti::with('pegawai')->whereBetween('mulai', [$mulai, $sampai])->orderBy('id','DESC')->get();
             return view('superadmin.cuti',compact('cuti'));
         }else{
             
