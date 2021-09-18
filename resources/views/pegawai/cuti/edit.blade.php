@@ -103,21 +103,21 @@
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">NIK Pengganti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nik_p" value="{{$data->nik_p}}" required>
+                            <input type="text" class="form-control" name="nik_p" value="{{$data->nik_p}}">
                         </div>
                         </div>
                         
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Nama Pengganti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama_p" value="{{$data->nama_p}}" required>
+                            <input type="text" class="form-control" name="nama_p" value="{{$data->nama_p}}">
                         </div>
                         </div>
                         
                         <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Telp Pengganti</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="telp_p" value="{{$data->telp_p}}" required>
+                            <input type="text" class="form-control" name="telp_p" value="{{$data->telp_p}}">
                         </div>
                         </div>
                     </div>
