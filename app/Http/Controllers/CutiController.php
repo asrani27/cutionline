@@ -49,6 +49,41 @@ class CutiController extends Controller
             $attr['nama_p'] = $req->nama_p;
             $attr['telp_p'] = $req->telp_p;
         }
+        $sisaCuti = 12 - Cuti::where('pegawai_id', $this->user()->pegawai->id)->where('jenis_cuti_id', 1)->sum('lama');
+        
+        $mulai   = Carbon::parse($req->mulai);
+        $sampai  = Carbon::parse($req->sampai);
+        $pegawai = Auth::user()->pegawai;
+        
+        $attr = $req->all();
+        $dateAll = CarbonPeriod::create($mulai, $sampai);
+
+        $dates = [];
+
+        foreach($dateAll as $item) {
+            $dates[] = $item->format('Y-m-d');
+        }
+
+        $liburNasional = LiburNasional::get();
+        $diff = collect($dates)->diff($liburNasional->pluck('tanggal'));
+
+        $collection = collect($diff)->map(function($value, $key){
+            $value = Carbon::parse($value)->format('l');
+            return $value;
+        });
+        
+        if($req->jenis_cuti_id == 1){
+            // Cuti Tahunan Tidak Termasuk Hari minggu
+            $attr['lama'] = count($collection->diff(['Sunday']));
+        }else{
+            // Cuti Lainnya Termasuk Hari minggu
+            $attr['lama'] = count($collection);
+        }
+        if($attr['lama'] > $sisaCuti)
+        {
+            toastr()->error('Tidak bisa mengajukan, Sisa Cuti Anda '. $sisaCuti. ' Hari');
+            return back();
+        }
         Cuti::find($id)->update($attr);
         toastr()->info('Cuti Berhasil Di Update');
         return redirect('/pegawai/home');
