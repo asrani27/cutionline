@@ -9,7 +9,6 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">LAPORAN CUTI</h3>
-
         </div>
         <form method="get" action="/superadmin/datacuti/cari">
         <div class="card-body">
